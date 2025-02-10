@@ -10,6 +10,6 @@ app = FastAPI(
 app.include_router(tags.router, prefix="/api/v1")
 
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to My FastAPI App"}
+@app.get("/api/health")
+async def health():
+    return {"status": "ok"}

@@ -1,12 +1,27 @@
+from typing import List
 from pydantic import BaseModel
 
 
-class TagRequest(BaseModel):
-    name: str
-    description: str
+class Coordinates(BaseModel):
+    lat: float
+    lon: float
 
 
-class TagResponse(BaseModel):
-    id: int
-    name: str
-    description: str
+class Image(BaseModel):
+    url: str
+    coordinates: Coordinates
+
+
+class TagsRequest(BaseModel):
+    category: str
+    image: Image
+
+
+class Tags(BaseModel):
+    key: str
+    value: str
+    confidence: float
+
+
+class TagsResponse(BaseModel):
+    tags: List[Tags]
