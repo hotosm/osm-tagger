@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "osm-tagger"
+version = "0.1.0"
+description = "Generative tagging service for HOT OSM submitted images"
+authors = ["Your Name <you@example.com>"]
+license = "AGPL-3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["standard"], version = "^0.115.8"}
+litellm = "^1.60.8"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
