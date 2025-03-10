@@ -1,8 +1,68 @@
+# OSM Tagger
 
 As part of HOT's participation in @Tech To The Rescue, we are kickstarting a collaboration with our new tech partner [Fulton Ring](https://www.fultonring.com/) ! 🤝 
 Together, we're diving into development of an AI-powered API for generating valid OSM tags from street-level imagery, which will be used by [ChatMap](https://chatmap.hotosm.org), a venture that promises to bring innovative solutions to the forefront of our mission.
 
-ChatMap
+## Requirements
+
+For this testing branch (dev/ollama) you'll need Ollama installed on your system:
+
+https://ollama.com/
+
+Then, download the `ollama/llava:34b` model. You'll need at least 32 GB of RAM for this model.
+
+```sh
+ollama pull ollama/llava:34b
+```
+
+You might also want experiment with other Ollama models.
+
+## Install & run
+
+Install dependencies and run the API:
+
+```sh
+poetry install
+uvicorn tagger.main:app --reload
+```
+
+Then, send a request with category and image (url and coordinates):
+
+```
+curl --request POST -H "Content-Type: application/json" \
+  --url http://127.0.0.1:8000/api/v1/tags/ \
+  --data '{
+  "category": "roads",
+  "image": {
+    "url": "https://umap.hotosm.org/media_file/00000030-PHOTO-2025-02-04-07-03-24.jpg",
+    "coordinates": {
+      "lat": -31.039293,
+      "lon": -64.312332
+    }
+  }
+}'
+```
+
+You should receive a response with OSM tags:
+
+```json
+{
+  "tags": [
+    {
+      "key": "smoothness",
+      "value": "intermediate",
+      "confidence": 0.6
+    },
+    {
+      "key": "surface",
+      "value": "unpaved",
+      "confidence": 0.6
+    }
+  ]
+}
+```
+
+## ChatMap
 
 ChatMap (chatmap.hotosm.org) is a simple but powerful app that enables mapping using common instant messaging apps like WhatsApp, Signal or Telegram.
 
@@ -17,7 +77,7 @@ Messages can include text, image or video.
 For persisting the data, media can be uploaded to a S3 bucket and the map’s GeoJSON to uMap (umap.hotosm.org)
 
 
-OSMTagger API
+##  OSMTagger API
 
 OSMTagger API should receive a request with an image URL, geo-location and category,  and return OSM valid tags. The category will help the API to decide a prompt and maybe other configurations.
 

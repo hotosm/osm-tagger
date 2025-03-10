@@ -1,6 +1,6 @@
 import json
 from litellm import completion
-
+from settings import DEFAULT_MODEL
 from tagger.api.schema.tags import Tags, TagsRequest, TagsResponse
 
 
@@ -41,8 +41,6 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
 
     # Generate tags for category (just pass in potential categories to context)
     tags_completion_response = completion(
-        model="gpt-4o",
-        response_format={"type": "json_object"},
         messages=[
             {"role": "system", "content": "You are generating tags for an image"},
             {"role": "system", "content": f"The image is of this category: {category}"},
@@ -69,6 +67,8 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
                 ],
             },
         ],
+        model=DEFAULT_MODEL["model"],
+        **{DEFAULT_MODEL["format"]["key"]: DEFAULT_MODEL["format"]["value"]}
     )
 
     tags_json = json.loads(tags_completion_response.choices[0].message.content)
