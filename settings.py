@@ -1,5 +1,3 @@
-# MODEL = "gpt-4o"
-
 MODELS = {
     "llama-vision": {
         # "model": "ollama/llava:34b",
