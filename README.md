@@ -5,7 +5,7 @@ Together, we're diving into development of an AI-powered API for generating vali
 
 ## Requirements
 
-For this testing branch (dev/ollama) you'll need Ollama installed on your system:
+You'll need Ollama installed on your system:
 
 https://ollama.com/
 
@@ -15,7 +15,7 @@ Then, download the `ollama/llava:34b` model. You'll need at least 32 GB of RAM f
 ollama pull ollama/llava:34b
 ```
 
-You might also want experiment with other Ollama models.
+You might also want experiment with other Ollama models, like `llama3.2-vision:latest`
 
 ## Install & run
 
