@@ -1,3 +1,12 @@
+from openai import BaseModel
+import outlines
+import outlines.models
+import outlines.models.openai
+import time
+
+from guidance import models, gen, select, system, user, assistant
+import outlines.models.transformers
+
 from tagger.api.schema.tags import Coordinates, Image, Tags, TagsRequest
 from tagger.core.tags import generate_tags
 
