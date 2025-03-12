@@ -20,7 +20,7 @@ class TagsRequest(BaseModel):
 class Tags(BaseModel):
     key: str
     value: str
-    confidence: float
+    confidence: float = 0.6
 
 
 class TagsResponse(BaseModel):

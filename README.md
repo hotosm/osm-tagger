@@ -3,21 +3,25 @@
 As part of HOT's participation in @Tech To The Rescue, we are kickstarting a collaboration with our new tech partner [Fulton Ring](https://www.fultonring.com/) ! 🤝 
 Together, we're diving into development of an AI-powered API for generating valid OSM tags from street-level imagery, which will be used by [ChatMap](https://chatmap.hotosm.org), a venture that promises to bring innovative solutions to the forefront of our mission.
 
-## Requirements
+## Setup & run
+
+### Model
 
 You'll need Ollama installed on your system:
 
 https://ollama.com/
 
-Then, download the `ollama/llava:34b` model. You'll need at least 32 GB of RAM for this model.
+Then, depending on your hardware, select and download an Ollama model. 
+
+Currently we support: `ollama/llava:34b` and `llama3.2-vision:11b`.
 
 ```sh
-ollama pull ollama/llava:34b
+ollama pull ollama/llama3.2-vision:11b
 ```
 
-You might also want experiment with other Ollama models, like `llama3.2-vision:latest`
+Check `config/models.py`, you might need to enable the model there.
 
-## Install & run
+### API
 
 Install dependencies and run the API:
 
