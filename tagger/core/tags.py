@@ -64,18 +64,18 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
         model=VISION_MODEL,
         messages=[
             TextMessage(
-                role="user",
+                role="system",
                 content="You are recommending tags for an image",
             ),
             TextMessage(
-                role="user", content=f"The image is of this category: {category}"
+                role="system", content=f"The image is of this category: {category}"
             ),
             TextMessage(
-                role="user",
+                role="system",
                 content=f"Here are the possible tags and tag values for '{category}':\n\n{json.dumps(tag_categories[category], indent=2)}",
             ),
             TextMessage(
-                role="user",
+                role="system",
                 content="For each tag, generate a value that is appropriate for the image",
             ),
             ImageMessage(
