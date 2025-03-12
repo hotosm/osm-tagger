@@ -9,11 +9,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
 fastapi = {extras = ["standard"], version = "^0.115.8"}
-litellm = "^1.60.8"
-ollama = "^0.4.7"
 boto3 = "^1.37.6"
 requests = "^2.32.3"
 pillow = "^11.1.0"
+litellm = "^1.63.6"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
