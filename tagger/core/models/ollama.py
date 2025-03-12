@@ -65,8 +65,6 @@ class Phi4MiniJSONOutputOllama(JSONOutputTextModel):
             # },
         )
 
-        print("Generated tags:", result.choices[0].message.content)
-
         response_text = result.choices[0].message.content
         json_match = re.search(r"\{.*\}", response_text, re.DOTALL)
 
@@ -75,4 +73,4 @@ class Phi4MiniJSONOutputOllama(JSONOutputTextModel):
 
         tags_json = json.loads(json_match.group(0))
 
-        return tags_json
+        return schema.model_validate(tags_json)

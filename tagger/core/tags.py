@@ -87,7 +87,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     )
 
     # Extract JSON from the response
-    tags_json = json_completion(
+    tags_json: GeneratedTagsSchema = json_completion(
         model=JSON_OUTPUT_MODEL,
         messages=[
             TextMessage(
@@ -115,8 +115,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
 
     return TagsResponse(
         tags=[
-            Tags(key=tag["key"], value=tag["value"], confidence=0.6)
-            for tag in tags_json["tags"]
+            Tags(key=tag.key, value=tag.value, confidence=0.6) for tag in tags_json.tags
         ]
     )
 
