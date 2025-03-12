@@ -1,6 +1,5 @@
 from io import BytesIO
 import json
-from settings import DEFAULT_MODEL
 import base64
 from typing import List
 
@@ -9,15 +8,13 @@ from pydantic import BaseModel
 import requests
 
 from tagger.api.schema.tags import Tags, TagsRequest, TagsResponse
+from tagger.config.models import JSON_OUTPUT_MODEL, VISION_MODEL
 from tagger.core.models.interface import (
     ImageMessage,
     TextMessage,
     json_completion,
     vision_completion,
 )
-
-from tagger.core.models.ollama import Llama3211BVisionOllama, Phi4MiniJSONOutputOllama
-from tagger.core.models.bedrock import Llama3211BVisionBedrock
 
 tag_categories = {
     "roads": {
@@ -61,16 +58,10 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     category = request.category
     image = request.image
 
-    # TODO: throw error if category is not in tag_categories
-    # assert supports_response_schema(
-    #     model="us.meta.llama3-3-70b-instruct-v1:0", custom_llm_provider="bedrock"
-    # )
-
     base64_image = download_and_resize_image(image.url)
 
     generated_tags = vision_completion(
-        # model=Llama3211BVisionOllama(),
-        model=Llama3211BVisionBedrock(),
+        model=VISION_MODEL,
         messages=[
             TextMessage(
                 role="system",
@@ -99,7 +90,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
 
     # Extract JSON from the response
     tags_json = json_completion(
-        model=Phi4MiniJSONOutputOllama(),
+        model=JSON_OUTPUT_MODEL,
         messages=[
             TextMessage(
                 role="system",
