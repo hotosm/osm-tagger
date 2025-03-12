@@ -13,9 +13,11 @@ boto3 = "^1.37.6"
 requests = "^2.32.3"
 pillow = "^11.1.0"
 litellm = "1.60.8"
+einops = "^0.8.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
+jupyterlab = "^4.3.5"
 
 [build-system]
 requires = ["poetry-core"]
