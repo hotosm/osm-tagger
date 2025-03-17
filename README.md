@@ -30,7 +30,11 @@ poetry install
 uvicorn tagger.main:app --reload
 ```
 
-Then, send a request with category and image (url and coordinates):
+Then, send a request with category and image (url and coordinates).
+
+In this example we use "roads" and the image below:
+
+<img src="https://umap.hotosm.org/media_file/00000030-PHOTO-2025-02-04-07-03-24.jpg" width="320" />
 
 ```
 curl --request POST -H "Content-Type: application/json" \
