@@ -8,7 +8,13 @@ from guidance import models, gen, select, system, user, assistant
 import outlines.models.transformers
 
 from tagger.api.schema.tags import Coordinates, Image, Tags, TagsRequest
-from tagger.core.tags import generate_tags
+from tagger.core.models.transformers import NomicVisionEmbeddingModel
+from tagger.core.tags import (
+    download_and_resize_image,
+    generate_tags,
+    get_similar_images,
+)
+from tagger.core.models.interface import image_embedding
 
 
 def test_generate_tags_smooth_road():
@@ -45,3 +51,21 @@ def test_generate_tags_rough_road():
         Tags(key="smoothness", value="intermediate", confidence=0.6),
         Tags(key="surface", value="unpaved", confidence=0.6),
     ]
+
+
+def test_image_retrieval_by_embedding():
+    # get embedding for image
+    image_base64 = download_and_resize_image(
+        # gray-asphalt-road-between-green-trees-during-daytime
+        "https://images.unsplash.com/photo-1595787572714-496673f87f71?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    )
+
+    image_embedding_base64 = image_embedding(
+        NomicVisionEmbeddingModel(), [image_base64]
+    )[0]
+
+    # query db for similar images
+    similar_images = get_similar_images(image_embedding_base64)
+    print(similar_images)
+
+    assert len(similar_images) == 3

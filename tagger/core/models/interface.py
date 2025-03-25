@@ -40,7 +40,14 @@ class JSONOutputVisionModel(ABC):
         raise NotImplementedError("Completion not implemented")
 
 
-# TODO: abstract base class for embedding model, vision embedding model
+class TextEmbeddingModel(ABC):
+    def text_embedding(self, texts: List[str]) -> List[List[float]]:
+        raise NotImplementedError("Embedding not implemented")
+
+
+class VisionEmbeddingModel(ABC):
+    def image_embedding(self, images_base64: List[str]) -> List[List[float]]:
+        raise NotImplementedError("Embedding not implemented")
 
 
 def completion(model: LanguageModel, messages: List[TextMessage]) -> str:
@@ -61,4 +68,11 @@ def json_completion(
     return model.completion(messages, schema)
 
 
-# TODO: embedding functions
+def text_embedding(model: TextEmbeddingModel, texts: List[str]) -> List[List[float]]:
+    return model.text_embedding(texts)
+
+
+def image_embedding(
+    model: VisionEmbeddingModel, images_base64: List[str]
+) -> List[List[float]]:
+    return model.image_embedding(images_base64)
