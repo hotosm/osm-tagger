@@ -6,6 +6,11 @@ authors = ["Your Name <you@example.com>"]
 license = "AGPL-3.0"
 readme = "README.md"
 
+packages = [
+    { include = "tagger" }
+]
+
+
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
 fastapi = {extras = ["standard"], version = "^0.115.8"}
@@ -14,11 +19,22 @@ requests = "^2.32.3"
 pillow = "^11.1.0"
 litellm = "1.60.8"
 einops = "^0.8.1"
+sqlmodel = "^0.0.24"
+pgvector = "^0.3.6"
+psycopg2-binary = "^2.9.10"
+scikit-learn = "^1.6.1"
+geoalchemy2 = "^0.17.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"
 jupyterlab = "^4.3.5"
+alembic = "^1.15.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+insert-image-embeddings = "scripts.insert_image_embeddings:main"
+generate-migrations = "alembic --name alembic revision --autogenerate"
+execute-migrations = "alembic --name alembic upgrade head"

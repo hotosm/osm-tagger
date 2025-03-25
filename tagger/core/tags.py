@@ -1,20 +1,28 @@
+from urllib.parse import urlparse
+from ast import Dict
 from io import BytesIO
+from typing import List, Dict
 import json
 import base64
-from typing import List
+
 
 from PIL import Image as PILImage
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from sqlmodel import Session, select
 import requests
+import boto3
 
 from tagger.api.schema.tags import Tags, TagsRequest, TagsResponse
-from tagger.config.models import JSON_OUTPUT_MODEL, VISION_MODEL
+from tagger.config.models import JSON_OUTPUT_MODEL, VISION_EMBEDDING_MODEL, VISION_MODEL
+from tagger.config.db import TAGGING_DB_ENGINE
 from tagger.core.models.interface import (
     ImageMessage,
     TextMessage,
+    image_embedding,
     json_completion,
     vision_completion,
 )
+from tagger.core.schema.tags import TagEmbedding
 
 tag_categories = {
     "roads": {
@@ -46,12 +54,17 @@ tag_categories = {
 
 
 class GeneratedTagSchema(BaseModel):
-    key: str
-    value: str
+    key: str = Field(description="The tag key")
+    value: str = Field(description="The tag value")
+    confidence: float = Field(
+        description="The level of confidence the tags are correct between 0 and 1",
+    )
 
 
 class GeneratedTagsSchema(BaseModel):
-    tags: List[GeneratedTagSchema]
+    tags: List[GeneratedTagSchema] = Field(
+        description="The tags generated for the image"
+    )
 
 
 def generate_tags(request: TagsRequest) -> TagsResponse:
@@ -59,6 +72,11 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     image = request.image
 
     base64_image = download_and_resize_image(image.url)
+
+    image_embedding_value = image_embedding(VISION_EMBEDDING_MODEL, [base64_image])[0]
+    similar_image_tags = get_similar_images(image_embedding_value, k=3)
+
+    # print("SIMILAR IMAGE TAGS:", similar_image_tags)
 
     generated_tags = vision_completion(
         model=VISION_MODEL,
@@ -76,8 +94,23 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
             ),
             TextMessage(
                 role="system",
-                content="For each tag, generate a value that is appropriate for the image",
+                content="For each tag, generate a value that is appropriate for the image. Also generate a confidence score between 0 and 1 for the tag value",
             ),
+            TextMessage(
+                role="system",
+                content="Here are the most similar images, their tags, and their similarity score to the image provided:",
+            ),
+            *[
+                ImageMessage(
+                    role="user",
+                    content=(
+                        f"Tags: {json.dumps([{'key': key, 'value': result['tags'][key]} for key in result['tags']])}, "
+                        f"Confidence: {result['cosine_distance']}"
+                    ),
+                    images_base64=[download_image(result["image_url"])],
+                )
+                for result in similar_image_tags
+            ],
             ImageMessage(
                 role="user",
                 content="Here is the image:",
@@ -85,6 +118,8 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
             ),
         ],
     )
+
+    # print("GENERATED TAGS:", generated_tags)
 
     # Extract JSON from the response
     tags_json: GeneratedTagsSchema = json_completion(
@@ -113,9 +148,12 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
         schema=GeneratedTagsSchema,
     )
 
+    # print("TAGS JSON:", tags_json)
+
     return TagsResponse(
         tags=[
-            Tags(key=tag.key, value=tag.value, confidence=0.6) for tag in tags_json.tags
+            Tags(key=tag.key, value=tag.value, confidence=tag.confidence)
+            for tag in tags_json.tags
         ]
     )
 
@@ -137,3 +175,45 @@ def download_and_resize_image(image_url: str, max_size: int = 1120) -> str:
     img.save(img_byte_arr, format="png")
 
     return base64.b64encode(img_byte_arr.getvalue()).decode("utf-8")
+
+
+def get_similar_images(
+    image_embeddings: List[float], k: int = 10
+) -> List[Dict[str, str]]:
+    with Session(TAGGING_DB_ENGINE) as session:
+        query = (
+            select(
+                TagEmbedding,
+                TagEmbedding.image_embeddings.cosine_distance(image_embeddings).label(
+                    "distance"
+                ),
+            )
+            .order_by(TagEmbedding.image_embeddings.cosine_distance(image_embeddings))
+            .limit(k)
+        )
+
+        results = session.exec(query).all()
+
+        # Convert results to list of dicts with similarity score
+        return [
+            {
+                **result[0].model_dump(),
+                "cosine_distance": result[1],
+            }
+            for result in results
+        ]
+
+
+def download_image(image_s3_url: str) -> str:
+    # Parse S3 URL
+    parsed_url = urlparse(image_s3_url)
+    bucket = parsed_url.netloc
+    key = parsed_url.path.lstrip("/")
+
+    # Download from S3
+    s3_client = boto3.client("s3")
+    response = s3_client.get_object(Bucket=bucket, Key=key)
+    image_data = response["Body"].read()
+
+    # Convert to base64
+    return base64.b64encode(image_data).decode("utf-8")
