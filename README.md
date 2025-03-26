@@ -3,6 +3,8 @@
 As part of HOT's participation in @Tech To The Rescue, we are kickstarting a collaboration with our new tech partner [Fulton Ring](https://www.fultonring.com/) ! 🤝 
 Together, we're diving into development of an AI-powered API for generating valid OSM tags from street-level imagery, which will be used by [ChatMap](https://chatmap.hotosm.org), a venture that promises to bring innovative solutions to the forefront of our mission.
 
+We kicked off the project in February/March 2025 and aim to have the work delivered by end of June 2025.
+
 ## Setup & run
 
 ### Model
