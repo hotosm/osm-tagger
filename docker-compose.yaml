@@ -11,6 +11,13 @@ services:
       - POSTGRES_DB=tag_embeddings
     ports:
       - "5432:5432"
+  ollama:
+    build:
+      context: .
+      dockerfile: ollama.dockerfile
+    entrypoint: ["ollama", "serve"]
+    ports:
+      - "11434:11434"
 
 volumes:
   pgvector_data:
