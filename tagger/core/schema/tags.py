@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Sequence
 
 from pgvector.sqlalchemy import Vector
 from sqlmodel import SQLModel, Field
@@ -16,7 +16,7 @@ class TagEmbedding(SQLModel, table=True):
     category: str = Field(index=True)
     image_url: str = Field(unique=True)
     attribution: Optional[str] = Field(default=None)
-    image_embeddings: List[float] = Field(sa_type=Vector(768))
+    image_embeddings: Sequence[float] = Field(sa_type=Vector(768))
     insert_timestamp: datetime = Field(
         default_factory=lambda: datetime.now(datetime.UTC)
     )

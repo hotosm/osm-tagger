@@ -14,7 +14,6 @@ from tagger.core.tags import (
     generate_tags,
     get_similar_images,
 )
-from tagger.core.models.interface import image_embedding
 
 
 def test_generate_tags_smooth_road():
@@ -60,9 +59,9 @@ def test_image_retrieval_by_embedding():
         "https://images.unsplash.com/photo-1595787572714-496673f87f71?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     )
 
-    image_embedding_base64 = image_embedding(
-        NomicVisionEmbeddingModel(), [image_base64]
-    )[0]
+    model = NomicVisionEmbeddingModel()
+
+    image_embedding_base64 = model.image_embedding([image_base64])[0]
 
     # query db for similar images
     similar_images = get_similar_images(image_embedding_base64)

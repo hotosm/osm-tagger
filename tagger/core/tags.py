@@ -15,12 +15,10 @@ import boto3
 from tagger.api.schema.tags import Tags, TagsRequest, TagsResponse
 from tagger.config.models import JSON_OUTPUT_MODEL, VISION_EMBEDDING_MODEL, VISION_MODEL
 from tagger.config.db import TAGGING_DB_ENGINE
+from tagger.config.storage import S3_CLIENT
 from tagger.core.models.interface import (
     ImageMessage,
     TextMessage,
-    image_embedding,
-    json_completion,
-    vision_completion,
 )
 from tagger.core.schema.tags import TagEmbedding
 
@@ -73,13 +71,12 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
 
     base64_image = download_and_resize_image(image.url)
 
-    image_embedding_value = image_embedding(VISION_EMBEDDING_MODEL, [base64_image])[0]
+    image_embedding_value = VISION_EMBEDDING_MODEL.image_embedding([base64_image])[0]
     similar_image_tags = get_similar_images(image_embedding_value, k=3)
 
     # print("SIMILAR IMAGE TAGS:", similar_image_tags)
 
-    generated_tags = vision_completion(
-        model=VISION_MODEL,
+    generated_tags = VISION_MODEL.vision_completion(
         messages=[
             TextMessage(
                 role="system",
@@ -122,8 +119,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     # print("GENERATED TAGS:", generated_tags)
 
     # Extract JSON from the response
-    tags_json: GeneratedTagsSchema = json_completion(
-        model=JSON_OUTPUT_MODEL,
+    tags_json: GeneratedTagsSchema = JSON_OUTPUT_MODEL.json_completion(
         messages=[
             TextMessage(
                 role="system",
@@ -211,9 +207,11 @@ def download_image(image_s3_url: str) -> str:
     key = parsed_url.path.lstrip("/")
 
     # Download from S3
-    s3_client = boto3.client("s3")
-    response = s3_client.get_object(Bucket=bucket, Key=key)
-    image_data = response["Body"].read()
+    bucket = S3_CLIENT.Bucket(bucket)
+    image_data = BytesIO()
+
+    bucket.download_fileobj(key, image_data)
+    image_data.seek(0)  # Reset buffer position to start
 
     # Convert to base64
-    return base64.b64encode(image_data).decode("utf-8")
+    return base64.b64encode(image_data.getvalue()).decode("utf-8")

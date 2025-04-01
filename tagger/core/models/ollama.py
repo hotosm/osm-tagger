@@ -39,8 +39,6 @@ class VisionOllama(VisionModel):
                     {"role": message.role, "content": message.content}
                 )
 
-        print("MODEL:", self.model)
-
         result = completion(
             model=self.model,
             api_base=self.api_base,
