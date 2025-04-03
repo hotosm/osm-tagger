@@ -14,7 +14,7 @@ services:
   ollama:
     build:
       context: .
-      dockerfile: ollama.dockerfile
+      dockerfile: dockerfiles/ollama.dockerfile
     entrypoint: [ "ollama", "serve" ]
     ports:
       - "11434:11434"
