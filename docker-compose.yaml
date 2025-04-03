@@ -4,7 +4,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: db.dockerfile
+      dockerfile: dockerfiles/db.dockerfile
     environment:
       - POSTGRES_USER=${DB_USER}:-postgres}
       - POSTGRES_PASSWORD=${DB_PASS}:-postgres}
@@ -14,7 +14,7 @@ services:
   ollama:
     build:
       context: .
-      dockerfile: ollama.dockerfile
+      dockerfile: dockerfiles/ollama.dockerfile
     entrypoint: ["ollama", "serve"]
     ports:
       - "11434:11434"
