@@ -36,5 +36,3 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 insert-image-embeddings = "scripts.insert_image_embeddings:main"
-generate-migrations = "alembic --name alembic revision --autogenerate"
-execute-migrations = "alembic --name alembic upgrade head"
