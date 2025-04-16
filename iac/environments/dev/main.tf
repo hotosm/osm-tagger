@@ -83,7 +83,8 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy" {
 
 # RDS
 module "tagging_db" {
-  source = "git::https://github.com/hotosm/terraform-aws-rds.git"
+  source = "git::https://github.com/hotosm/terraform-aws-rds.git?ref=main"
+  # source = "git::https://github.com/hotosm/terraform-aws-rds.git?ref=v1.0"
 
   vpc_id     = data.aws_vpc.main.id
   subnet_ids = data.aws_subnet.private[*].id
@@ -121,16 +122,16 @@ module "tagging_db" {
   deployment_environment = "dev"
 
   project_meta = {
-    name       = "OSM Tagger"
+    name       = "osm-tagger"
     short_name = "osm-tagger"
     version    = "0.1.0"
-    url        = "https://github.com/hotosm/osm-tagger"
+    url        = "github.com/hotosm/osm-tagger"
   }
 
   org_meta = {
     name       = "Humanitarian OpenStreetMap Team"
     short_name = "hotosm"
-    url        = "https://hotosm.org"
+    url        = "hotosm.org"
   }
 }
 
@@ -181,6 +182,15 @@ module "ecs" {
     DB_USER     = "${module.tagging_db.database_credentials}:username::"
     DB_PASSWORD = "${module.tagging_db.database_credentials}:password::"
   }
+  # container_secrets = {
+  #   DB_HOST     = "${module.tagging_db.database_config_as_ecs_inputs.POSTGRES_ENDPOINT}::"
+  #   DB_PORT     = "${module.tagging_db.database_config_as_ecs_inputs.POSTGRES_PORT}::"
+  #   DB_NAME     = "${module.tagging_db.database_config_as_ecs_inputs.POSTGRES_DB}::"
+  #   DB_USER     = "${module.tagging_db.database_config_as_ecs_inputs.POSTGRES_USER}::"
+  #   DB_PASSWORD = module.tagging_db.database_config_as_ecs_secrets_inputs[0]
+  # }
+
+  container_envvars = {}
 
   # Second container for Ollama
   additional_container_definitions = [
