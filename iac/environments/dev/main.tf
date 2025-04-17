@@ -11,12 +11,11 @@ data "aws_vpc" "main" {
 data "aws_subnet" "private" {
   count = 6
   id = element([
-    "subnet-fe2f129b",
-    "subnet-55251830",
-    "subnet-14291471",
-    "subnet-adf138f7",
-    "subnet-8cfe37d6",
-    "subnet-e9f039b3"
+    "subnet-008efd1c836f87fea", 
+    "subnet-035d98f1778d2dbce", 
+    "subnet-063f08db8746b3a17", 
+    "subnet-0bec667f5d50ebc8c", 
+    "subnet-0cd0d84e0ece50263"
   ], count.index)
 }
 
@@ -91,7 +90,7 @@ module "tagging_db" {
 
   database = {
     name            = "osm_tagger_tagging_db"
-    admin_user      = "admin"
+    admin_user      = "osmtaggeradmin"
     password_length = 32
     engine_version  = 16.6
     port            = 5432
@@ -111,7 +110,7 @@ module "tagging_db" {
   }
 
   # RDS Dev Deployment only.
-  public_access       = true
+  public_access       = false
   deletion_protection = true
 
   default_tags = {
@@ -199,7 +198,7 @@ module "ecs" {
       image   = "ollama/ollama:latest"
       command = ["ollama", "serve"]
       cpu     = 2048
-      memory  = 8192
+      memory_mb  = 8192
       portMappings = [
         {
           containerPort = 11434
@@ -256,7 +255,7 @@ resource "aws_iam_policy" "ecr_read_access" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_ecr" {
-  role       = module.ecs.execution_role_arn
+  role       = aws_iam_role.ecs_task_role.name
   policy_arn = aws_iam_policy.ecr_read_access.arn
 }
 
@@ -336,6 +335,6 @@ resource "aws_iam_policy" "secrets_access" {
 }
 
 resource "aws_iam_role_policy_attachment" "secrets_access" {
-  role       = module.ecs.execution_role_arn
+  role       = aws_iam_role.ecs_task_role.name
   policy_arn = aws_iam_policy.secrets_access.arn
 }
