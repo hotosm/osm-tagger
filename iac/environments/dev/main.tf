@@ -11,10 +11,10 @@ data "aws_vpc" "main" {
 data "aws_subnet" "private" {
   count = 6
   id = element([
-    "subnet-008efd1c836f87fea", 
-    "subnet-035d98f1778d2dbce", 
-    "subnet-063f08db8746b3a17", 
-    "subnet-0bec667f5d50ebc8c", 
+    "subnet-008efd1c836f87fea",
+    "subnet-035d98f1778d2dbce",
+    "subnet-063f08db8746b3a17",
+    "subnet-0bec667f5d50ebc8c",
     "subnet-0cd0d84e0ece50263"
   ], count.index)
 }
@@ -168,7 +168,7 @@ module "ecs" {
 
   # Using 1 vCPU with 4GB RAM for API
   container_capacity = {
-    cpu       = 1024 # 1 vCPU
+    cpu       = 2048 # 2 vCPU
     memory_mb = 4096 # 4GB RAM
   }
 
@@ -194,11 +194,11 @@ module "ecs" {
   # Second container for Ollama
   additional_container_definitions = [
     {
-      name    = "ollama"
-      image   = "ollama/ollama:latest"
-      command = ["ollama", "serve"]
-      cpu     = 2048
-      memory_mb  = 8192
+      name      = "ollama"
+      image     = "ollama/ollama:latest"
+      command   = ["ollama", "serve"]
+      cpu       = 2048
+      memory_mb = 8192
       portMappings = [
         {
           containerPort = 11434
