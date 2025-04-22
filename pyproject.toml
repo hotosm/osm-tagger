@@ -24,6 +24,10 @@ pgvector = "^0.3.6"
 psycopg2-binary = "^2.9.10"
 scikit-learn = "^1.6.1"
 geoalchemy2 = "^0.17.1"
+pandas = "^2.2.3"
+pyarrow = "^19.0.1"
+fastparquet = "^2024.11.0"
+transformers = "^4.51.3"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.4"

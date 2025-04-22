@@ -76,7 +76,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
 
     # print("SIMILAR IMAGE TAGS:", similar_image_tags)
 
-    generated_tags = VISION_MODEL.vision_completion(
+    generated_tags = VISION_MODEL.completion(
         messages=[
             TextMessage(
                 role="system",
@@ -119,7 +119,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     # print("GENERATED TAGS:", generated_tags)
 
     # Extract JSON from the response
-    tags_json: GeneratedTagsSchema = JSON_OUTPUT_MODEL.json_completion(
+    tags_json: GeneratedTagsSchema = JSON_OUTPUT_MODEL.completion(
         messages=[
             TextMessage(
                 role="system",
@@ -209,7 +209,6 @@ def download_image(image_s3_url: str) -> str:
     # Download from S3
     bucket = S3_CLIENT.Bucket(bucket)
     image_data = BytesIO()
-
     bucket.download_fileobj(key, image_data)
     image_data.seek(0)  # Reset buffer position to start
 

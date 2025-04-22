@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: db.dockerfile
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=tag_embeddings
+      - POSTGRES_USER=${DB_USER}:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASS}:-postgres}
+      - POSTGRES_DB=${DB_NAME}:-tag_embeddings}
     ports:
       - "5432:5432"
 

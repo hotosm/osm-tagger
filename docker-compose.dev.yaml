@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: db.dockerfile
+    environment:
+      - POSTGRES_USER=${DB_USER}:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASS}:-postgres}
+      - POSTGRES_DB=${DB_NAME}:-tag_embeddings}
+    ports:
+      - "5432:5432"
+
+  minio:
+    container_name: minio
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-admin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-admin123}
+      - MINIO_BUCKET=${MINIO_BUCKET:-hotosm-osm-tagger}
+      - MINIO_ACCESS_KEY=${S3_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${S3_SECRET_KEY}
+    volumes:
+      - data:/data
+    command: server --console-address ":9001" /data
+
+volumes:
+  pgvector_data:
+  data:
