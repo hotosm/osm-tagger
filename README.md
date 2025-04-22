@@ -49,10 +49,10 @@ Go to the MinIO [admin](http://localhost:9001/browser) and setup a new bucket na
 Then generate access keys and edit `config/models.py` un-commenting the lines for MinIO and adding the
 credentials (`aws_access_key_id`, `aws_secret_access_key`).
 
-You'll need to upload images to the Bucket, these are +9000 images of roads that will help OSM Tagger
-to do the work and return a confidence value:
+You'll need to upload images to the Bucket, these are +9000 images of roads downloaded from Mapillary
+that will help OSM Tagger to do the work and return a confidence value:
 
-*(A link will be available soon)*
+https://drive.google.com/file/d/1rNhUnXxmTjkCvbw6TuKc-0MgEIRsWxq4/view?usp=sharing
 
 Download the .zip file, un-compress it and upload the files to your bucket.
 
