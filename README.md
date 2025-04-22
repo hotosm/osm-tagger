@@ -1,17 +1,16 @@
 # OSM Tagger
 
 As part of HOT's participation in @Tech To The Rescue, we are kickstarting a collaboration with our new tech partner [Fulton Ring](https://www.fultonring.com/) ! 🤝
+
 Together, we're diving into development of an AI-powered API for generating valid OSM tags from street-level imagery, which will be used by [ChatMap](https://chatmap.hotosm.org), a venture that promises to bring innovative solutions to the forefront of our mission.
 
 We kicked off the project in February/March 2025 and aim to have the work delivered by end of June 2025.
 
 ## Setup & run
 
-### Model
+### Model (local)
 
-You'll need Ollama installed on your system:
-
-https://ollama.com/
+For running OSM Tagger locally, you'll need [Ollama](https://ollama.com/) installed on your system.
 
 Then, depending on your hardware, select and download an Ollama model.
 
@@ -21,33 +20,32 @@ Currently we support: `ollama/llava:34b` and `llama3.2-vision:11b`.
 ollama pull ollama/llama3.2-vision:11b
 ```
 
-Check `config/models.py`, you might need to enable the model there.
+And configure `config/models.py` accordingly.
 
-### Database
+### Database & Storage
 
-Start the database (requires Docker):
+For local development and testing:
 
 ```sh
-docker compose up -d
+docker compose -f docker-compose.dev.yaml up -d
 ```
 
-Generate migrations:
+#### Database
+
+Migrations and initial data:
 
 ```sh
 poetry run alembic --name alembic revision --autogenerate
-```
-
-Apply migrations:
-
-```sh
 poetry run alembic --name alembic upgrade head
-```
-
-Seed the database:
-
-```sh
 poetry run insert-image-embeddings
 ```
+
+#### Storage
+
+Go to the MinIO [admin](http://localhost:9001/browser) and setup a new bucket named `hotosm-osm-tagger`.
+
+Then generate access keys and edit `config/models.py` un-commenting the lines for MinIO and adding the
+credentials (`aws_access_key_id`, `aws_secret_access_key`).
 
 ### API
 
@@ -58,7 +56,7 @@ poetry install
 uvicorn tagger.main:app --reload
 ```
 
-Then, send a request with category and image (url and coordinates).
+Finally, send a request with category and image (url and coordinates).
 
 In this example we use "roads" and the image below:
 
