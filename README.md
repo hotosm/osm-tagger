@@ -1,19 +1,18 @@
 # OSM Tagger
 
-As part of HOT's participation in @Tech To The Rescue, we are kickstarting a collaboration with our new tech partner [Fulton Ring](https://www.fultonring.com/) ! 🤝 
+As part of HOT's participation in @Tech To The Rescue, we are kickstarting a collaboration with our new tech partner [Fulton Ring](https://www.fultonring.com/) ! 🤝
+
 Together, we're diving into development of an AI-powered API for generating valid OSM tags from street-level imagery, which will be used by [ChatMap](https://chatmap.hotosm.org), a venture that promises to bring innovative solutions to the forefront of our mission.
 
 We kicked off the project in February/March 2025 and aim to have the work delivered by end of June 2025.
 
 ## Setup & run
 
-### Model
+### Model (local)
 
-You'll need Ollama installed on your system:
+For running OSM Tagger locally, you'll need [Ollama](https://ollama.com/) installed on your system.
 
-https://ollama.com/
-
-Then, depending on your hardware, select and download an Ollama model. 
+Then, depending on your hardware, select and download an Ollama model.
 
 Currently we support: `ollama/llava:34b` and `llama3.2-vision:11b`.
 
@@ -21,7 +20,43 @@ Currently we support: `ollama/llava:34b` and `llama3.2-vision:11b`.
 ollama pull ollama/llama3.2-vision:11b
 ```
 
-Check `config/models.py`, you might need to enable the model there.
+And configure `config/models.py` accordingly.
+
+*Note: you can also use Amazon Bedrock.*
+
+### Database & Storage
+
+For local development and testing:
+
+```sh
+docker compose -f docker-compose.dev.yaml up -d
+```
+
+#### Database
+
+Migrations and initial data for tagging roads:
+
+```sh
+poetry run alembic --name alembic revision --autogenerate
+poetry run alembic --name alembic upgrade head
+poetry run insert-image-embeddings
+```
+
+#### Storage
+
+Go to the MinIO [admin](http://localhost:9001/browser) and setup a new bucket named `hotosm-osm-tagger`.
+
+Then generate access keys and edit `config/models.py` un-commenting the lines for MinIO and adding the
+credentials (`aws_access_key_id`, `aws_secret_access_key`).
+
+You'll need to upload images to the Bucket, these are +9000 images of roads that will help OSM Tagger
+to do the work and return a confidence value:
+
+*(A link will be available soon)*
+
+Download the .zip file, un-compress it and upload the files to your bucket.
+
+*Note: you can also use AWS S3*
 
 ### API
 
@@ -32,7 +67,7 @@ poetry install
 uvicorn tagger.main:app --reload
 ```
 
-Then, send a request with category and image (url and coordinates).
+Finally, send a request with category and image (url and coordinates).
 
 In this example we use "roads" and the image below:
 
@@ -86,13 +121,8 @@ Messages can include text, image or video.
 
 For persisting the data, media can be uploaded to a S3 bucket and the map’s GeoJSON to uMap (umap.hotosm.org)
 
+## OSMTagger API
 
-##  OSMTagger API
-
-OSMTagger API should receive a request with an image URL, geo-location and category,  and return OSM valid tags. The category will help the API to decide a prompt and maybe other configurations.
+OSMTagger API should receive a request with an image URL, geo-location and category, and return OSM valid tags. The category will help the API to decide a prompt and maybe other configurations.
 
 Two models will be used, one focused on extracting text from an image and the other for generating OSM tags from the text. This will divide the problem in two and provide more flexibility for the final solution.
-
-
-
-

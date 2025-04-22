@@ -14,9 +14,10 @@ from tagger.core.models.interface import (
 
 DEFAULT_MODEL = "ollama/llama3.2-vision:11b"
 
+
 class VisionOllama(VisionModel):
     model = DEFAULT_MODEL
-    
+
     def __init__(self, api_base: str = "http://localhost:11434"):
         self.api_base = api_base
 
@@ -37,8 +38,6 @@ class VisionOllama(VisionModel):
                 messages_for_completion.append(
                     {"role": message.role, "content": message.content}
                 )
-                
-        print("MODEL:", self.model)
 
         result = completion(
             model=self.model,
@@ -48,11 +47,14 @@ class VisionOllama(VisionModel):
 
         return result.choices[0].message.content
 
+
 class Llama3211BVisionOllama(VisionOllama):
     model = "ollama/llama3.2-vision:11b"
 
+
 class Llava34BVisionOllama(VisionOllama):
     model = "ollama/llava:34b"
+
 
 class Phi4MiniJSONOutputOllama(JSONOutputTextModel):
     def __init__(self, api_base: str = "http://localhost:11434"):

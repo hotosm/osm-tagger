@@ -20,45 +20,31 @@ class LanguageModel(ABC):
 
 
 class JSONOutputTextModel(ABC):
-    def completion(
+    def json_completion(
         self, messages: List[Union[TextMessage]], schema: BaseModel
     ) -> BaseModel:
         raise NotImplementedError("Completion not implemented")
 
 
 class VisionModel(ABC):
-    def completion(
+    def vision_completion(
         self, messages: List[Union[TextMessage, ImageMessage]], **kwargs
     ) -> str:
         raise NotImplementedError("Completion not implemented")
 
 
 class JSONOutputVisionModel(ABC):
-    def completion(
+    def json_vision_completion(
         self, messages: List[Union[TextMessage, ImageMessage]], schema: BaseModel
     ) -> BaseModel:
         raise NotImplementedError("Completion not implemented")
 
 
-# TODO: abstract base class for embedding model, vision embedding model
+class TextEmbeddingModel(ABC):
+    def text_embedding(self, texts: List[str]) -> List[List[float]]:
+        raise NotImplementedError("Embedding not implemented")
 
 
-def completion(model: LanguageModel, messages: List[TextMessage]) -> str:
-    return model.completion(messages)
-
-
-def vision_completion(
-    model: VisionModel, messages: List[Union[TextMessage, ImageMessage]]
-) -> str:
-    return model.completion(messages)
-
-
-def json_completion(
-    model: JSONOutputTextModel,
-    messages: List[TextMessage],
-    schema: BaseModel,
-) -> BaseModel:
-    return model.completion(messages, schema)
-
-
-# TODO: embedding functions
+class VisionEmbeddingModel(ABC):
+    def image_embedding(self, images_base64: List[str]) -> List[List[float]]:
+        raise NotImplementedError("Embedding not implemented")
