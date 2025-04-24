@@ -11,20 +11,11 @@ data "aws_vpc" "main" {
 data "aws_subnet" "private" {
   count = 6
   id = element([
-<<<<<<< HEAD
     "subnet-008efd1c836f87fea",
     "subnet-035d98f1778d2dbce",
     "subnet-063f08db8746b3a17",
     "subnet-0bec667f5d50ebc8c",
     "subnet-0cd0d84e0ece50263"
-=======
-    "subnet-fe2f129b",
-    "subnet-55251830",
-    "subnet-14291471",
-    "subnet-adf138f7",
-    "subnet-8cfe37d6",
-    "subnet-e9f039b3"
->>>>>>> 0d427c0 (feat: add iac proposal)
   ], count.index)
 }
 
@@ -127,11 +118,7 @@ module "tagging_db" {
   }
 
   # RDS Dev Deployment only.
-<<<<<<< HEAD
   public_access       = false
-=======
-  public_access       = true
->>>>>>> 0d427c0 (feat: add iac proposal)
   deletion_protection = true
 
   default_tags = {
@@ -142,27 +129,16 @@ module "tagging_db" {
   deployment_environment = "dev"
 
   project_meta = {
-<<<<<<< HEAD
     name       = "osm-tagger"
     short_name = "osm-tagger"
     version    = "0.1.0"
     url        = "github.com/hotosm/osm-tagger"
-=======
-    name       = "OSM Tagger"
-    short_name = "osm-tagger"
-    version    = "0.1.0"
-    url        = "https://github.com/hotosm/osm-tagger"
->>>>>>> 0d427c0 (feat: add iac proposal)
   }
 
   org_meta = {
     name       = "Humanitarian OpenStreetMap Team"
     short_name = "hotosm"
-<<<<<<< HEAD
     url        = "hotosm.org"
-=======
-    url        = "https://hotosm.org"
->>>>>>> 0d427c0 (feat: add iac proposal)
   }
 }
 
@@ -200,11 +176,7 @@ module "ecs" {
 
   # Using 1 vCPU with 4GB RAM for API
   container_capacity = {
-<<<<<<< HEAD
     cpu       = 2048 # 2 vCPU
-=======
-    cpu       = 1024 # 1 vCPU
->>>>>>> 0d427c0 (feat: add iac proposal)
     memory_mb = 4096 # 4GB RAM
   }
 
@@ -217,7 +189,6 @@ module "ecs" {
     DB_USER     = "${module.tagging_db.database_credentials}:username::"
     DB_PASSWORD = "${module.tagging_db.database_credentials}:password::"
   }
-<<<<<<< HEAD
   # container_secrets = {
   #   DB_HOST     = "${module.tagging_db.database_config_as_ecs_inputs.POSTGRES_ENDPOINT}::"
   #   DB_PORT     = "${module.tagging_db.database_config_as_ecs_inputs.POSTGRES_PORT}::"
@@ -227,25 +198,15 @@ module "ecs" {
   # }
 
   container_envvars = {}
-=======
->>>>>>> 0d427c0 (feat: add iac proposal)
 
   # Second container for Ollama
   additional_container_definitions = [
     {
-<<<<<<< HEAD
       name      = "ollama"
       image     = "ollama/ollama:latest"
       command   = ["ollama", "serve"]
       cpu       = 2048
       memory_mb = 8192
-=======
-      name    = "ollama"
-      image   = "ollama/ollama:latest"
-      command = ["ollama", "serve"]
-      cpu     = 2048
-      memory  = 8192
->>>>>>> 0d427c0 (feat: add iac proposal)
       portMappings = [
         {
           containerPort = 11434
@@ -302,11 +263,7 @@ resource "aws_iam_policy" "ecr_read_access" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_ecr" {
-<<<<<<< HEAD
   role       = aws_iam_role.ecs_task_role.name
-=======
-  role       = module.ecs.execution_role_arn
->>>>>>> 0d427c0 (feat: add iac proposal)
   policy_arn = aws_iam_policy.ecr_read_access.arn
 }
 
@@ -386,10 +343,6 @@ resource "aws_iam_policy" "secrets_access" {
 }
 
 resource "aws_iam_role_policy_attachment" "secrets_access" {
-<<<<<<< HEAD
   role       = aws_iam_role.ecs_task_role.name
-=======
-  role       = module.ecs.execution_role_arn
->>>>>>> 0d427c0 (feat: add iac proposal)
   policy_arn = aws_iam_policy.secrets_access.arn
 }
