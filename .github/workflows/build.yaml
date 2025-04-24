@@ -5,6 +5,19 @@ on:
   #   branches:
   #     - main
   workflow_call:
+    outputs:
+      app_image_tag:
+        description: "App image tag"
+        value: ${{ jobs.build-osm-tagger.outputs.image_tag }}
+      app_image_name:
+        description: "App image name"
+        value: ${{ jobs.build-osm-tagger.outputs.image_name }}
+      ollama_image_tag:
+        description: "Ollama image tag"
+        value: ${{ jobs.build-ollama.outputs.image_tag }}
+      ollama_image_name:
+        description: "Ollama image name"
+        value: ${{ jobs.build-ollama.outputs.image_name }}
 
 permissions:
   id-token: write
@@ -18,9 +31,9 @@ jobs:
       image_name: ghcr.io/${{ github.repository }}/osm-tagger
       dockerfile: dockerfiles/app.dockerfile
       multi_arch: true
-    outputs:
-      image_name: ${{ jobs.build-image.outputs.image_name }}
-      image_tag: ${{ jobs.build-image.outputs.image_tag }}
+    # outputs:
+    #   image_name: ${{ jobs.build-image.outputs.image_name }}
+    #   image_tag: ${{ jobs.build-image.outputs.image_tag }}
 
   build-ollama:
     uses: hotosm/gh-workflows/.github/workflows/image_build.yml@3.1.1
@@ -28,6 +41,6 @@ jobs:
       image_name: ghcr.io/${{ github.repository }}/osm-tagger-ollama
       dockerfile: dockerfiles/ollama.dockerfile
       multi_arch: true
-    outputs:
-      image_name: ${{ jobs.build-image.outputs.image_name }}
-      image_tag: ${{ jobs.build-image.outputs.image_tag }}
+    # outputs:
+    #   image_name: ${{ jobs.build-image.outputs.image_name }}
+    #   image_tag: ${{ jobs.build-image.outputs.image_tag }}
