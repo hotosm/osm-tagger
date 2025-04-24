@@ -1,0 +1,12 @@
+.form {
+    @apply: gap-2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 3;
+}
+
+.form .input {
+    flex-grow: 3;
+}
+

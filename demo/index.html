@@ -5,24 +5,45 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/styles.css">
     <script type="module">
       import Index from './index.js'
       import './components/TagList/index.js';
       import './components/ImageInput/index.js';
+      import './styles/hot-sl.css';
       window.app = { index:  new Index() };
     </script>
   </head>
   <body>
     <div class="main">
-      <h1 class="hot-logo">OSM Tagger</h1>
-      <img class="partner-logo" alt="Fulton Ring" />
+
+      <img src="/assets/hot-logo-icon.svg" class="hot-logo" alt="Fulton Ring" />
+      <h1>OSM Tagger</h1>
+
+      <div class="partner-logos">
+        <img 
+          src="/assets/fulton-ring-logo.svg"
+          class="fulton-ring"
+          alt="Fulton Ring" 
+        />
+        <img
+          src="/assets/tech-to-the-rescue-logo.svg"
+          class="tech-to-the-rescue"
+          alt="Tech to the Rescue"
+        />
+      </div>
+
       <p>
-        As part of HOT's participation in @Tech To The Rescue, we are kickstarting a collaboration with our new tech partner Fulton Ring ! 🤝
-        Together, we're diving into development of an AI-powered API for generating valid OSM tags from street-level imagery, which will be used by ChatMap, a venture that promises to bring innovative solutions to the forefront of our mission.
+        As part of HOT's participation in @Tech To The Rescue, we are 
+        kickstarting a collaboration with our new tech partner Fulton Ring ! 🤝
+        Together, we're diving into development of an AI-powered API for generating
+        valid OSM tags from street-level imagery, which will be used by ChatMap, a venture
+        that promises to bring innovative solutions to the forefront of our mission.
       </p>
-      <image-input id="imageInput" onClick="app.index.handleGetTagsClick()"></image-input>
+
+      <image-input id="imageInput" onAction="app.index.handleGetTagsClick()"></image-input>
       <tag-list id="tagList"></tag-list>
+
       <p id="loadingMsg" class="loading">Loading ...</p>
     </div>
   </body>

@@ -17,6 +17,10 @@ class TagList extends HTMLElement {
     this.tagTemplate = this.shadowRoot.getElementById('tagTemplate');
   }
 
+   /**
+   * Add a tag element
+   * @param {string} tag - Tag string
+   */
   addTag(tag) {
     const instance = this.tagTemplate.content.cloneNode(true);
     const key = instance.querySelector('.key');
