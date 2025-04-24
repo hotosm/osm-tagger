@@ -18,12 +18,9 @@ on:
         description: "Tag for the Ollama image"
         required: true
         type: string
-      role_to_assume:
-        description: "Role to assume"
-        required: true
-        type: string
-      ref_name:
-        description: "Name of the branch"
+    secrets:
+      AWS_OIDC_ROLE_ARN:
+        description: "AWS OIDC Role ARN"
         required: true
         type: string
 
@@ -45,8 +42,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
-          role-to-assume: ${{ inputs.role_to_assume }}
-          role-session-name: gh-ci-ecs-deploy-${{ inputs.ref_name }}
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          role-session-name: gh-ci-ecs-deploy-${{ github.ref_name }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
