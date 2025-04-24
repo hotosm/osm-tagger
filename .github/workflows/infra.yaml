@@ -8,7 +8,7 @@ on:
   #     - initial-deployment
   #   paths:
   #     - "iac/**"
-  workflow_dispatch:
+  workflow_call:
 
 permissions:
   id-token: write
