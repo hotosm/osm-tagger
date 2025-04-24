@@ -82,23 +82,15 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy" {
 
 # RDS
 module "tagging_db" {
-<<<<<<< HEAD
   source = "git::https://github.com/hotosm/terraform-aws-rds.git?ref=main"
   # source = "git::https://github.com/hotosm/terraform-aws-rds.git?ref=v1.0"
-=======
-  source = "git::https://github.com/hotosm/terraform-aws-rds.git"
->>>>>>> 0d427c0 (feat: add iac proposal)
 
   vpc_id     = data.aws_vpc.main.id
   subnet_ids = data.aws_subnet.private[*].id
 
   database = {
     name            = "osm_tagger_tagging_db"
-<<<<<<< HEAD
     admin_user      = "osmtaggeradmin"
-=======
-    admin_user      = "admin"
->>>>>>> 0d427c0 (feat: add iac proposal)
     password_length = 32
     engine_version  = 16.6
     port            = 5432
