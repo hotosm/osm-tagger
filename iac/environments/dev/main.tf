@@ -175,9 +175,10 @@ module "ecs" {
   container_commands = ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
   container_secrets = {
-    DB_HOST     = "${module.tagging_db.database_credentials}:host::"
-    DB_PORT     = "${module.tagging_db.database_credentials}:port::"
-    DB_NAME     = "${module.tagging_db.database_credentials}:dbname::"
+    DB_HOST = "${module.tagging_db.database_credentials}:host::"
+    DB_PORT = "${module.tagging_db.database_credentials}:port::"
+    # DB_NAME     = "${module.tagging_db.database_credentials}:dbname::"
+    DB_NAME     = "${module.tagging_db.database_credentials}:dbname"
     DB_USER     = "${module.tagging_db.database_credentials}:username::"
     DB_PASSWORD = "${module.tagging_db.database_credentials}:password::"
   }
