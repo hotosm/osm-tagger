@@ -163,7 +163,7 @@ module "ecs" {
     service_name = "osm-tagger"
     app_port     = 8000
     image_url    = "ghcr.io/hotosm/osm-tagger/osm-tagger"
-    image_tag    = "latest"
+    image_tag    = var.app_image_tag
   }
 
   # Using 1 vCPU with 4GB RAM for API
@@ -196,7 +196,7 @@ module "ecs" {
   additional_container_definitions = [
     {
       name      = "ollama"
-      image     = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:latest"
+      image     = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:${var.ollama_image_tag}"
       command   = ["ollama", "serve"]
       cpu       = 2048
       memory_mb = 8192

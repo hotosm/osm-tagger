@@ -1,12 +1,14 @@
 name: Deploy Infrastructure
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - "iac/**"
-  workflow_dispatch:
+# on:
+#   push:
+#     # branches:
+#     #   - main
+#     branches:
+#       - initial-deployment
+#     paths:
+#       - "iac/**"
+#   workflow_dispatch:
 
 permissions:
   id-token: write
@@ -18,6 +20,15 @@ jobs:
     defaults:
       run:
         working-directory: ./iac/environments/dev
+    inputs:
+      app_image_tag:
+        description: "Tag for the OSM Tagger application image"
+        required: true
+        type: string
+      ollama_image_tag:
+        description: "Tag for the Ollama image"
+        required: true
+        type: string
 
     steps:
       - uses: actions/checkout@v4
@@ -45,4 +56,9 @@ jobs:
 
       - name: Terraform Apply
         # if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -input=false
+        run: |
+          terraform apply \
+            -auto-approve \
+            -input=false \
+            -var="app_image_tag=${{ inputs.app_image_tag }}" \
+            -var="ollama_image_tag=${{ inputs.ollama_image_tag }}"

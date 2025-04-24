@@ -1,0 +1,19 @@
+name: Deploy Pipeline
+
+on:
+  push:
+    branches:
+      # - main
+      - initial-deployment
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+
+  deploy-infra:
+    needs: build
+    uses: ./.github/workflows/infra.yaml
+    with:
+      app_image_tag: ${{ needs.build.outputs.build-osm-tagger.image_tag }}
+      ollama_image_tag: ${{ needs.build.outputs.build-ollama.image_tag }}
