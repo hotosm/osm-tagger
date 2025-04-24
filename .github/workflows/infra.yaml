@@ -1,14 +1,14 @@
 name: Deploy Infrastructure
 
-# on:
-#   push:
-#     # branches:
-#     #   - main
-#     branches:
-#       - initial-deployment
-#     paths:
-#       - "iac/**"
-#   workflow_dispatch:
+on:
+  # push:
+  #   # branches:
+  #   #   - main
+  #   branches:
+  #     - initial-deployment
+  #   paths:
+  #     - "iac/**"
+  workflow_dispatch:
 
 permissions:
   id-token: write
