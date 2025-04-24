@@ -1,0 +1,33 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches:
+      - initial-deployment
+    # branches:
+    #   - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build OSM Tagger Image
+        uses: hotosm/gh-workflows/.github/workflows/image_build.yml@3.1.1
+        with:
+          image_name: ghcr.io/${{ github.repository }}/osm-tagger
+          dockerfile: dockerfiles/app.dockerfile
+          multi_arch: true
+
+      - name: Build OSM Tagger Ollama Image
+        uses: hotosm/gh-workflows/.github/workflows/image_build.yml@3.1.1
+        with:
+          image_name: ghcr.io/${{ github.repository }}/osm-tagger-ollama
+          dockerfile: dockerfiles/ollama.dockerfile
+          multi_arch: true
