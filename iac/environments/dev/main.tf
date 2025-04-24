@@ -162,7 +162,7 @@ module "ecs" {
   container_settings = {
     service_name = "osm-tagger"
     app_port     = 8000
-    image_url    = "osm-tagger" # Replace with actual image URL
+    image_url    = "ghcr.io/hotosm/osm-tagger/osm-tagger"
     image_tag    = "latest"
   }
 
@@ -196,7 +196,7 @@ module "ecs" {
   additional_container_definitions = [
     {
       name      = "ollama"
-      image     = "ollama/ollama:latest"
+      image     = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:latest"
       command   = ["ollama", "serve"]
       cpu       = 2048
       memory_mb = 8192
