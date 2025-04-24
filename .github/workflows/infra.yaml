@@ -22,7 +22,6 @@ on:
       AWS_OIDC_ROLE_ARN:
         description: "AWS OIDC Role ARN"
         required: true
-        type: string
 
 permissions:
   id-token: write
