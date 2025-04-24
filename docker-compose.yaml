@@ -4,13 +4,20 @@ services:
   db:
     build:
       context: .
-      dockerfile: db.dockerfile
+      dockerfile: dockerfiles/db.dockerfile
     environment:
       - POSTGRES_USER=${DB_USER}:-postgres}
       - POSTGRES_PASSWORD=${DB_PASS}:-postgres}
       - POSTGRES_DB=${DB_NAME}:-tag_embeddings}
     ports:
       - "5432:5432"
+  ollama:
+    build:
+      context: .
+      dockerfile: dockerfiles/ollama.dockerfile
+    entrypoint: [ "ollama", "serve" ]
+    ports:
+      - "11434:11434"
 
 volumes:
   pgvector_data:

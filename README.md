@@ -22,7 +22,7 @@ ollama pull ollama/llama3.2-vision:11b
 
 And configure `config/models.py` accordingly.
 
-*Note: you can also use Amazon Bedrock.*
+_Note: you can also use Amazon Bedrock._
 
 ### Database & Storage
 
@@ -52,11 +52,11 @@ credentials (`aws_access_key_id`, `aws_secret_access_key`).
 You'll need to upload images to the Bucket, these are +9000 images of roads downloaded from Mapillary
 that will help OSM Tagger to do the work and return a confidence value:
 
-https://drive.google.com/file/d/1rNhUnXxmTjkCvbw6TuKc-0MgEIRsWxq4/view?usp=sharing
+_(A link will be available soon)_
 
 Download the .zip file, un-compress it and upload the files to your bucket.
 
-*Note: you can also use AWS S3*
+_Note: you can also use AWS S3_
 
 ### API
 
@@ -67,7 +67,7 @@ poetry install
 uvicorn tagger.main:app --reload
 ```
 
-Finally, send a request with category and image (url and coordinates).
+Then, send a request with category and image (url and coordinates).
 
 In this example we use "roads" and the image below:
 
