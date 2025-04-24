@@ -8,8 +8,5 @@ __pycache__
 
 # Terraform
 **/.terraform
-<<<<<<< HEAD
 **/.terraform.lock.hcl
-=======
->>>>>>> 0d427c0 (feat: add iac proposal)
 *.tfstate

@@ -3,9 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - initial-deployment
-    # branches:
-    #   - main
+      - main
   workflow_dispatch:
 
 permissions:

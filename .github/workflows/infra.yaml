@@ -3,9 +3,7 @@ name: Deploy Infrastructure
 on:
   push:
     branches:
-      - initial-deployment
-    # branches:
-    #   - main
+      - main
     paths:
       - "iac/**"
   workflow_dispatch:
