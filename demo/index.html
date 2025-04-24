@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>OSM Tagger Demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style.css">
+    <script type="module">
+      import Index from './index.js'
+      import './components/TagList/index.js';
+      import './components/ImageInput/index.js';
+      window.app = { index:  new Index() };
+    </script>
+  </head>
+  <body>
+    <div class="main">
+      <h1 class="hot-logo">OSM Tagger</h1>
+      <img class="partner-logo" alt="Fulton Ring" />
+      <p>
+        As part of HOT's participation in @Tech To The Rescue, we are kickstarting a collaboration with our new tech partner Fulton Ring ! 🤝
+        Together, we're diving into development of an AI-powered API for generating valid OSM tags from street-level imagery, which will be used by ChatMap, a venture that promises to bring innovative solutions to the forefront of our mission.
+      </p>
+      <image-input id="imageInput" onClick="app.index.handleGetTagsClick()"></image-input>
+      <tag-list id="tagList"></tag-list>
+      <p id="loadingMsg" class="loading">Loading ...</p>
+    </div>
+  </body>
+</html>

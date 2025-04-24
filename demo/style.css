@@ -1,0 +1,16 @@
+body {
+  font-family: "Archivo", helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+.main {
+  text-align: center;
+}
+
+.loading {
+  display: none;
+}
+
+.loading.show {
+  display: block;
+}
