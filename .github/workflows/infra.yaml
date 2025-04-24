@@ -9,6 +9,15 @@ on:
   #   paths:
   #     - "iac/**"
   workflow_call:
+    inputs:
+      app_image_tag:
+        description: "Tag for the OSM Tagger application image"
+        required: true
+        type: string
+      ollama_image_tag:
+        description: "Tag for the Ollama image"
+        required: true
+        type: string
 
 permissions:
   id-token: write
@@ -20,15 +29,6 @@ jobs:
     defaults:
       run:
         working-directory: ./iac/environments/dev
-    inputs:
-      app_image_tag:
-        description: "Tag for the OSM Tagger application image"
-        required: true
-        type: string
-      ollama_image_tag:
-        description: "Tag for the Ollama image"
-        required: true
-        type: string
 
     steps:
       - uses: actions/checkout@v4
