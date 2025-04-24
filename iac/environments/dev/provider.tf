@@ -6,16 +6,15 @@ terraform {
     }
   }
 
-  # TODO: set up backend for terraform state
   # NOTE: may want to implement a lock table
-  # backend "s3" {
-  #   bucket = "osm-tagger-terraform-state"
-  #   key    = "dev/terraform.tfstate"
-  #   region = "us-east-1"
+  backend "s3" {
+    bucket = "hotosm-terraform"
+    key    = "osm-tagger/dev/terraform.tfstate"
+    region = "us-east-1"
 
-  #   dynamodb_table = "osm-tagger-terraform-state-lock"
-  #   encrypt        = true
-  # }
+    # dynamodb_table = "osm-tagger-terraform-state-lock"
+    encrypt = true
+  }
 }
 
 provider "aws" {
