@@ -18,6 +18,10 @@ on:
         description: "Tag for the Ollama image"
         required: true
         type: string
+      ref_name:
+        description: "Name of the branch"
+        required: true
+        type: string
 
 permissions:
   id-token: write
@@ -38,7 +42,7 @@ jobs:
         with:
           aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
           role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
-          role-session-name: gh-ci-ecs-deploy-${{ github.ref_name }}
+          role-session-name: gh-ci-ecs-deploy-${{ inputs.ref_name }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
