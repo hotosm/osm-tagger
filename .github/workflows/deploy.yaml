@@ -17,4 +17,5 @@ jobs:
     with:
       app_image_tag: ${{ needs.build.outputs.app_image_tag }}
       ollama_image_tag: ${{ needs.build.outputs.ollama_image_tag }}
+    secrets:
       AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
