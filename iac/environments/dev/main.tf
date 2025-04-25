@@ -146,6 +146,27 @@ module "ecs_cluster" {
   }
 }
 
+# ECS Service
+
+# TODO: create cloudwatch log groups for osm-tagger and ollama
+resource "aws_cloudwatch_log_group" "osm_tagger" {
+  name = "/ecs/osm-tagger"
+
+  tags = {
+    project     = "osm-tagger"
+    environment = "dev"
+  }
+}
+
+resource "aws_cloudwatch_log_group" "osm_tagger_ollama" {
+  name = "/ecs/osm-tagger-ollama"
+
+  tags = {
+    project     = "osm-tagger"
+    environment = "dev"
+  }
+}
+
 module "ecs" {
   source = "git::https://github.com/fulton-ring/terraform-aws-ecs.git?ref=additional-containers"
 
@@ -206,6 +227,14 @@ module "ecs" {
           hostPort      = 11434
         }
       ]
+      log_configuration = {
+        logdriver = "awslogs"
+        options = {
+          awslogs-group         = aws_cloudwatch_log_group.osm_tagger_ollama.name
+          awslogs-region        = "us-east-1" # Replace with your region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
     }
   ]
 
@@ -218,7 +247,7 @@ module "ecs" {
   log_configuration = {
     logdriver = "awslogs"
     options = {
-      awslogs-group         = "/ecs/osm-tagger"
+      awslogs-group         = aws_cloudwatch_log_group.osm_tagger.name
       awslogs-region        = "us-east-1" # Replace with your region
       awslogs-stream-prefix = "ecs"
     }

@@ -8,11 +8,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yaml
+  # build:
+  #   uses: ./.github/workflows/build.yaml
 
   deploy-infra:
-    needs: build
+    # needs: build
     uses: ./.github/workflows/infra.yaml
     with:
       app_image_tag: ${{ needs.build.outputs.app_image_tag }}
