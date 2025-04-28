@@ -46,8 +46,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-        # with:
-        #   terraform_version: "1.9.8"
+        with:
+          terraform_version: "1.9.8"
 
       - name: Terraform Init
         run: terraform init
@@ -59,7 +59,7 @@ jobs:
         run: terraform plan -input=false
 
       - name: Terraform Apply
-        # if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: |
           terraform apply \
             -auto-approve \
