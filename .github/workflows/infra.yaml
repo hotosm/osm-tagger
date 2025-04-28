@@ -1,12 +1,27 @@
 name: Deploy Infrastructure
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "iac/**"
-  workflow_dispatch:
+  # push:
+  #   # branches:
+  #   #   - main
+  #   branches:
+  #     - initial-deployment
+  #   paths:
+  #     - "iac/**"
+  workflow_call:
+    inputs:
+      app_image_tag:
+        description: "Tag for the OSM Tagger application image"
+        required: true
+        type: string
+      ollama_image_tag:
+        description: "Tag for the Ollama image"
+        required: true
+        type: string
+    secrets:
+      AWS_OIDC_ROLE_ARN:
+        description: "AWS OIDC Role ARN"
+        required: true
 
 permissions:
   id-token: write
@@ -31,8 +46,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-        # with:
-        #   terraform_version: "1.9.8"
+        with:
+          terraform_version: "1.9.8"
 
       - name: Terraform Init
         run: terraform init
@@ -44,5 +59,10 @@ jobs:
         run: terraform plan -input=false
 
       - name: Terraform Apply
-        # if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -input=false
+        if: github.ref == 'refs/heads/main'
+        run: |
+          terraform apply \
+            -auto-approve \
+            -input=false \
+            -var="app_image_tag=${{ inputs.app_image_tag }}" \
+            -var="ollama_image_tag=${{ inputs.ollama_image_tag }}"
