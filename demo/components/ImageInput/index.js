@@ -8,6 +8,7 @@ class ImageInput extends HTMLElement {
       super();
       this.attachShadow({ mode: 'open' });
       this.onAction = this.getAttribute('onAction');
+      this.defaultValue = this.getAttribute('defaultValue');
       const styleSheet = new CSSStyleSheet();
       styleSheet.replaceSync(styles);
       this.shadowRoot.adoptedStyleSheets = [styleSheet];
@@ -19,11 +20,12 @@ class ImageInput extends HTMLElement {
               placeholder="Image URL"
               id="input"
               class="input"
-              value="https://umap.hotosm.org/media_file/00000030-PHOTO-2025-02-04-07-03-24.jpg"
+              value="${this.defaultValue}"
           ></sl-input>
 
           <sl-button
               variant="primary"
+              id="button"
               onclick="${this.onAction}"
           >
             Get tags
@@ -33,6 +35,7 @@ class ImageInput extends HTMLElement {
 
       `;
       this.input = this.shadowRoot.getElementById('input');
+      this.button = this.shadowRoot.getElementById('button');
     }
 
     get value() {

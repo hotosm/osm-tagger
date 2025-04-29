@@ -1,17 +1,22 @@
+import styles from './styles.css?inline';
 
 class TagList extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    const styleSheet = new CSSStyleSheet();
+    styleSheet.replaceSync(styles);
+    this.shadowRoot.adoptedStyleSheets = [styleSheet];
     this.shadowRoot.innerHTML = `
-        <ul id="tagList">
-          <template id="tagTemplate">
-            <li class="tag">
-              <span class="key"></span> = <span class="value"></span>
-              (<span class="confidence"></span>)
-            </li>
-          </template>
-      </ul>
+      <table id="tagList" class="tagList">
+        <template id="tagTemplate">
+          <tr>
+            <td class="key"></td>
+            <td class="value"></td>
+            <td class="confidence"></td>
+          </tr>
+        </template>
+      </table>
     `
     this.tagList = this.shadowRoot.getElementById('tagList');
     this.tagTemplate = this.shadowRoot.getElementById('tagTemplate');
@@ -27,9 +32,17 @@ class TagList extends HTMLElement {
     const value = instance.querySelector('.value');
     const confidence = instance.querySelector('.confidence');
     
-    key.textContent = tag.key;
-    value.textContent = tag.value;
-    confidence.textContent = tag.confidence;
+    key.innerHTML = `<a \
+      target="_blank" \
+      href="https://wiki.openstreetmap.org/wiki/Key:${tag.key}">\
+      ${tag.key}\
+    </a>`;
+    value.innerHTML = `<a \
+      target="_blank" \
+      href="https://wiki.openstreetmap.org/wiki/Tag:${tag.key}%3D${tag.value}">\
+      ${tag.value}\
+    </a>`;
+    confidence.textContent = `${Math.round(tag.confidence * 100, 2)}%`;
 
     this.tagList.appendChild(instance);
   }
@@ -45,7 +58,7 @@ class TagList extends HTMLElement {
     
     // Add new tags
     tags.forEach(tag => {
-      this.addTag(tag);
+        this.addTag(tag);
     });
   }
 

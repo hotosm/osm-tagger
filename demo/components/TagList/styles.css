@@ -1,0 +1,33 @@
+
+.tagList {
+    width: 100%;
+}
+
+.key {
+    font-weight: bold;
+}
+
+.key, .value, .confidence {
+    font-size: var(--sl-font-size-medium);
+    @apply: p-4;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.key {
+    @apply mr-1; 
+}
+
+.value {
+    @apply ml-1; 
+}
+
+a {
+    text-decoration: none;
+    color: var(--sl-color-neutral-1000)
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--sl-color-primary-700)
+}

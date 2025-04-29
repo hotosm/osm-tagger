@@ -5,9 +5,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css">
     <script type="module">
       import Index from './index.js'
+      import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
       import './components/TagList/index.js';
       import './components/ImageInput/index.js';
       import './styles/hot-sl.css';
@@ -18,7 +19,7 @@
     <div class="main">
 
       <img src="/assets/hot-logo-icon.svg" class="hot-logo" alt="Fulton Ring" />
-      <h1>OSM Tagger</h1>
+      <h1><strong>OSM Tagger</strong> demo</h1>
 
       <div class="partner-logos">
         <img 
@@ -33,18 +34,30 @@
         />
       </div>
 
-      <p>
-        As part of HOT's participation in @Tech To The Rescue, we are 
-        kickstarting a collaboration with our new tech partner Fulton Ring ! 🤝
-        Together, we're diving into development of an AI-powered API for generating
-        valid OSM tags from street-level imagery, which will be used by ChatMap, a venture
-        that promises to bring innovative solutions to the forefront of our mission.
-      </p>
+      <h2>
+        Enter an URL of a <strong>road image (street level)</strong><br />
+        and extract relevant tags:
+      </h2>
 
-      <image-input id="imageInput" onAction="app.index.handleGetTagsClick()"></image-input>
-      <tag-list id="tagList"></tag-list>
+      <div class="imageInput">
+        <image-input
+          id="imageInput"
+          onAction="app.index.handleGetTagsClick()"
+          defaultValue="https://wiki.openstreetmap.org/w/images/1/10/Potholes_at_the_Level_Crossing%2C_Barrow_Haven_-_geograph.org.uk_-_1621073.jpg"
+        ></image-input>
+      </div>
 
-      <p id="loadingMsg" class="loading">Loading ...</p>
+      <div class="tagList">
+        <tag-list id="tagList"></tag-list>
+      </div>
+
+      <p id="loadingMsg" class="loading"><sl-spinner></sl-spinner> Analyzing ...</p>
+
+      <div
+        class="imagePreview"
+        id="imagePreview"
+        style="background-image: url('https://wiki.openstreetmap.org/w/images/1/10/Potholes_at_the_Level_Crossing%2C_Barrow_Haven_-_geograph.org.uk_-_1621073.jpg')"
+      ></div>
     </div>
   </body>
 </html>
