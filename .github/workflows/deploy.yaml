@@ -16,7 +16,7 @@ jobs:
       multi_arch: true
 
   deploy-infra:
-    needs: build
+    needs: build-osm-tagger
     uses: ./.github/workflows/infra.yaml
     with:
       app_image_tag: ${{ needs.build-osm-tagger.outputs.image_tag }}
