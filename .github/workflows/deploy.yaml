@@ -10,7 +10,6 @@ on:
 jobs:
   build-osm-tagger:
     runs-on: ubuntu-latest
-    needs: cleanup
     steps:
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
