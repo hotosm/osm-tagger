@@ -98,13 +98,6 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
                 content="Here are the most similar images, their tags, and their similarity score to the image provided:",
             ),
             *[
-<<<<<<< Updated upstream
-                ImageMessage(
-                    role="user",
-                    content=(
-                        f"Tags: {json.dumps([{'key': key, 'value': result['tags'][key]} for key in result['tags']])}, "
-                        f"Confidence: {result['cosine_distance']}"
-=======
                 message
                 for result in similar_image_tags
                 for message in [
@@ -122,11 +115,8 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
                             f"Tags: {json.dumps([{'key': key, 'value': result['tags'][key]} for key in result['tags']])}, "
                             f"Confidence: {1 - float(result['cosine_distance'])}"
                         ),
->>>>>>> Stashed changes
                     ),
-                    images_base64=[download_image(result["image_url"])],
-                )
-                for result in similar_image_tags
+                ]
             ],
             ImageMessage(
                 role="user",
