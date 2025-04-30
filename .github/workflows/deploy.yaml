@@ -3,18 +3,24 @@ name: Deploy Pipeline
 on:
   push:
     branches:
-      - main
+      # - main
+      - initial-deployment
   workflow_dispatch:
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yaml
+  build-osm-tagger:
+    needs: cleanup
+    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@3.1.1
+    with:
+      image_name: ghcr.io/${{ github.repository }}/osm-tagger
+      dockerfile: dockerfiles/app.dockerfile
+      multi_arch: true
 
   deploy-infra:
     needs: build
     uses: ./.github/workflows/infra.yaml
     with:
-      app_image_tag: ${{ needs.build.outputs.app_image_tag }}
-      ollama_image_tag: ${{ needs.build.outputs.ollama_image_tag }}
+      app_image_tag: ${{ needs.build-osm-tagger.outputs.image_tag }}
+      ollama_image_tag: main
     secrets:
       AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
