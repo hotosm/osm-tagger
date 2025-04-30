@@ -8,6 +8,7 @@ import base64
 
 from PIL import Image as PILImage
 from pydantic import BaseModel, Field
+from sqlalchemy import desc
 from sqlmodel import Session, select
 import requests
 import boto3
@@ -74,7 +75,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     image_embedding_value = VISION_EMBEDDING_MODEL.image_embedding([base64_image])[0]
     similar_image_tags = get_similar_images(image_embedding_value, k=3)
 
-    # print("SIMILAR IMAGE TAGS:", similar_image_tags)
+    print("SIMILAR IMAGE TAGS:", similar_image_tags)
 
     generated_tags = VISION_MODEL.completion(
         messages=[
@@ -98,15 +99,21 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
                 content="Here are the most similar images, their tags, and their similarity score to the image provided:",
             ),
             *[
-                ImageMessage(
-                    role="user",
-                    content=(
-                        f"Tags: {json.dumps([{'key': key, 'value': result['tags'][key]} for key in result['tags']])}, "
-                        f"Confidence: {result['cosine_distance']}"
-                    ),
-                    images_base64=[download_image(result["image_url"])],
-                )
+                message
                 for result in similar_image_tags
+                for message in [
+                    # ImageMessage(
+                    #     role="user",
+                    #     images_base64=[download_image(result["image_url"])],
+                    # ),
+                    TextMessage(
+                        role="user",
+                        content=(
+                            f"Tags: {json.dumps([{'key': key, 'value': result['tags'][key]} for key in result['tags']])}, "
+                            f"Confidence: {1 - float(result['cosine_distance'])}"
+                        ),
+                    ),
+                ]
             ],
             ImageMessage(
                 role="user",
@@ -184,7 +191,10 @@ def get_similar_images(
                     "distance"
                 ),
             )
-            .order_by(TagEmbedding.image_embeddings.cosine_distance(image_embeddings))
+            .order_by(
+                TagEmbedding.image_embeddings.cosine_distance(image_embeddings),
+                desc(TagEmbedding.image_embeddings.cosine_distance(image_embeddings)),
+            )
             .limit(k)
         )
 
