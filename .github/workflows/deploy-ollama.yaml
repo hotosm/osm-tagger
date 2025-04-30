@@ -1,0 +1,30 @@
+name: Deploy Ollama
+
+on:
+  push:
+    branches:
+      # - main
+      - initial-deployment
+    paths:
+      - "dockerfiles/ollama.dockerfile"
+
+permissions:
+  id-token: write
+  contents: read
+  packages: write
+
+jobs:
+  build-ollama:
+    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@3.1.1
+    with:
+      image_name: ghcr.io/${{ github.repository }}/osm-tagger-ollama
+      dockerfile: dockerfiles/ollama.dockerfile
+
+  deploy-infra:
+    needs: build
+    uses: ./.github/workflows/infra.yaml
+    with:
+      app_image_tag: main
+      ollama_image_tag: ${{ needs.build-ollama.outputs.image_tag }}
+    secrets:
+      AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}

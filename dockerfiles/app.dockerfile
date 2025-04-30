@@ -35,7 +35,7 @@ COPY poetry.lock pyproject.toml ./
 
 RUN pip install --no-cache-dir poetry && \
   poetry config virtualenvs.create false && \
-  poetry install --no-interaction --no-ansi --no-root
+  poetry install --no-interaction --no-ansi --no-root --without dev
 
 # Copy the application code
 COPY tagger ./tagger

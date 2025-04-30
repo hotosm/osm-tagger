@@ -253,7 +253,8 @@ module "ecs" {
     }
   }
 
-  container_cpu_architecture = "ARM64"
+  # container_cpu_architecture = "ARM64"
+  container_cpu_architecture = "X86_64"
   force_new_deployment       = true
   task_role_arn              = aws_iam_role.ecs_task_role.arn
 
