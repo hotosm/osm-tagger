@@ -22,13 +22,17 @@ h2 {
   line-height: var(--sl-line-height-dense);
 }
 
+/* Main container */
+
 .main {
   text-align: center;
-  max-width: 50vw;
+  width: 500px;
   min-height: 80vh;
   background-color: var(--sl-color-neutral-0);
   @apply p-5 r-4 rounded-lg shadow-md;
 }
+
+/* Loading message */
 
 .loading {
   display: none;
@@ -54,7 +58,9 @@ h2 {
   width: 160px;
 }
 
-.imagePreview {
+/* Components wrappers */
+
+.imgPreview {
   width: 100%;
   height: 300px;
   background-size: cover;
