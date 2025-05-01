@@ -191,8 +191,8 @@ module "ecs" {
 
   # Using 1 vCPU with 4GB RAM for API
   container_capacity = {
-    cpu       = 2048 # 2 vCPU
-    memory_mb = 8192 # 8GB RAM
+    cpu       = 4096  # 4 vCPU
+    memory_mb = 16384 # 16GB RAM
   }
 
   # container_commands = ["uvicorn", "tagger.main:app", "--host", "0.0.0.0", "--port", "8000"]
@@ -223,19 +223,19 @@ module "ecs" {
       name    = "ollama"
       image   = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:${var.ollama_image_tag}"
       command = ["ollama", "serve"]
-      cpu     = 2048
-      memory  = 8192
+      cpu     = 4096
+      memory  = 16384
       portMappings = [
         {
           containerPort = 11434
           hostPort      = 11434
         }
       ]
-      log_configuration = {
+      logConfiguration = {
         logdriver = "awslogs"
         options = {
           awslogs-group         = aws_cloudwatch_log_group.osm_tagger_ollama.name
-          awslogs-region        = "us-east-1" # Replace with your region
+          awslogs-region        = "us-east-1"
           awslogs-stream-prefix = "ecs"
         }
       }
