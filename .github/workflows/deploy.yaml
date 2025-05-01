@@ -3,8 +3,7 @@ name: Deploy Pipeline
 on:
   push:
     branches:
-      # - main
-      - initial-deployment
+      - main
   workflow_dispatch:
 
 jobs:
@@ -39,16 +38,16 @@ jobs:
             type=ref,event=branch
             type=ref,event=tag
 
-      # - name: Build and push
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     file: dockerfiles/app.dockerfile
-      #     push: ${{ github.ref == 'refs/heads/main' }}
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: dockerfiles/app.dockerfile
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Output image tag
         id: image_tag
