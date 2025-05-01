@@ -180,6 +180,8 @@ module "ecs" {
     IaC_Management = "Terraform"
   }
 
+  container_ephemeral_storage = 40
+
   container_settings = {
     service_name = "osm-tagger"
     app_port     = 8000
