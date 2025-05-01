@@ -34,7 +34,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}/osm-tagger
           tags: |
-            type=sha,format=short
+            type=raw,value=${{ github.sha }}
             type=ref,event=branch
             type=ref,event=tag
 
@@ -51,7 +51,7 @@ jobs:
 
       - name: Output image tag
         id: image_tag
-        run: echo "image_tag=$(echo ${{ steps.meta.outputs.tags }} | cut -d',' -f1)" >> $GITHUB_OUTPUT
+        run: echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
 
   deploy-infra:
     needs: build-osm-tagger
