@@ -213,7 +213,9 @@ module "ecs" {
   #   DB_PASSWORD = module.tagging_db.database_config_as_ecs_secrets_inputs[0]
   # }
 
-  container_envvars = {}
+  container_envvars = {
+    AWS_REGION = "us-east-1"
+  }
 
   # Second container for Ollama
   additional_container_definitions = [
