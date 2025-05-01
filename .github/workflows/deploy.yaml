@@ -34,7 +34,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}/osm-tagger
           tags: |
-            type=sha,format=long
+            type=sha,format=short
             type=ref,event=branch
             type=ref,event=tag
 
