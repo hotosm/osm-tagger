@@ -192,7 +192,7 @@ module "ecs" {
   # Using 1 vCPU with 4GB RAM for API
   container_capacity = {
     cpu       = 2048 # 2 vCPU
-    memory_mb = 4096 # 4GB RAM
+    memory_mb = 8192 # 8GB RAM
   }
 
   container_commands = ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
@@ -218,11 +218,11 @@ module "ecs" {
   # Second container for Ollama
   additional_container_definitions = [
     {
-      name      = "ollama"
-      image     = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:${var.ollama_image_tag}"
-      command   = ["ollama", "serve"]
-      cpu       = 2048
-      memory_mb = 8192
+      name    = "ollama"
+      image   = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:${var.ollama_image_tag}"
+      command = ["ollama", "serve"]
+      cpu     = 2048
+      memory  = 8192
       portMappings = [
         {
           containerPort = 11434
