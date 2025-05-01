@@ -195,7 +195,7 @@ module "ecs" {
     memory_mb = 8192 # 8GB RAM
   }
 
-  container_commands = ["uvicorn", "tagger.main:app", "--host", "0.0.0.0", "--port", "8000"]
+  # container_commands = ["uvicorn", "tagger.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
   container_secrets = {
     DB_HOST = "${module.tagging_db.database_credentials}:host::"
