@@ -10,7 +10,7 @@ jobs:
   build-osm-tagger:
     runs-on: ubuntu-latest
     outputs:
-      image_tag: ${{ steps.image_tag.outputs.tags }}
+      image_tag: ${{ steps.image_tag.outputs.image_tag }}
     steps:
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
