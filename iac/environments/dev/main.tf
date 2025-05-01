@@ -220,11 +220,11 @@ module "ecs" {
   # Second container for Ollama
   additional_container_definitions = [
     {
-      name    = "ollama"
-      image   = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:${var.ollama_image_tag}"
-      command = ["ollama", "serve"]
-      cpu     = 4096
-      memory  = 16384
+      name  = "ollama"
+      image = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:${var.ollama_image_tag}"
+      # command = ["ollama", "serve"]
+      cpu    = 4096
+      memory = 16384
       portMappings = [
         {
           containerPort = 11434
