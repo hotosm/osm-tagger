@@ -3,7 +3,8 @@ name: Deploy Pipeline
 on:
   push:
     branches:
-      - main
+      # - main
+      - initial-deployment
   workflow_dispatch:
 
 jobs:
@@ -34,7 +35,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}/osm-tagger
           tags: |
-            type=sha,format=short
+            type=raw,value=${{ github.sha }}
             type=ref,event=branch
             type=ref,event=tag
 
