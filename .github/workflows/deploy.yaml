@@ -3,8 +3,7 @@ name: Deploy Pipeline
 on:
   push:
     branches:
-      # - main
-      - initial-deployment
+      - main
   workflow_dispatch:
 
 jobs:
@@ -52,7 +51,7 @@ jobs:
 
       - name: Output image tag
         id: image_tag
-        run: echo "image_tag=ghcr.io/${{ github.repository }}/osm-tagger:${{ github.sha }}" >> $GITHUB_OUTPUT
+        run: echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
 
   deploy-infra:
     needs: build-osm-tagger
