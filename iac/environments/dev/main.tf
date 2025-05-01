@@ -231,11 +231,11 @@ module "ecs" {
           hostPort      = 11434
         }
       ]
-      log_configuration = {
+      logConfiguration = {
         logdriver = "awslogs"
         options = {
           awslogs-group         = aws_cloudwatch_log_group.osm_tagger_ollama.name
-          awslogs-region        = "us-east-1" # Replace with your region
+          awslogs-region        = "us-east-1"
           awslogs-stream-prefix = "ecs"
         }
       }
