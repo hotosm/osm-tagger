@@ -30,7 +30,7 @@ h2 {
   min-height: 80vh;
   background-color: var(--sl-color-neutral-0);
   box-shadow: rgba(0,0,0,.2) 0 0 15px;
-  @apply p-5 r-4 rounded-lg;
+  @apply p-5 r-4 rounded;
 }
 
 .footerMsg, .footerMsg a {
@@ -81,7 +81,7 @@ h2 {
   height: 300px;
   background-size: cover;
   background-position: center;
-  @apply rounded-lg mt-8;
+  @apply rounded mt-8;
 }
 
 .tagList {
