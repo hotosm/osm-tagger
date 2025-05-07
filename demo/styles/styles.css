@@ -1,7 +1,7 @@
 
 
 body {
-  @apply: p-20;
+  @apply: p-10;
   font-family: "Archivo", helvetica, arial, sans-serif;
   display: grid;
   place-items: center;
