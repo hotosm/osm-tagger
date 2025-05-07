@@ -284,8 +284,11 @@ module "ecs" {
   task_role_arn              = aws_iam_role.ecs_task_role.arn
 
   load_balancer_settings = {
-    enabled          = true
-    target_group_arn = module.alb.target_group_arn
+    enabled                 = true
+    arn_suffix              = ""
+    target_group_arn        = module.alb.target_group_arn
+    target_group_arn_suffix = ""
+    scaling_request_count   = 50
   }
 
   # Required networking settings
