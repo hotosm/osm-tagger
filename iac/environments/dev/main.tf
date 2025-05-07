@@ -285,9 +285,9 @@ module "ecs" {
 
   load_balancer_settings = {
     enabled                 = true
-    arn_suffix              = ""
+    arn_suffix              = module.alb.load_balancer_arn_suffix
     target_group_arn        = module.alb.target_group_arn
-    target_group_arn_suffix = ""
+    target_group_arn_suffix = module.alb.target_group_arn_suffix
     scaling_request_count   = 50
   }
 
