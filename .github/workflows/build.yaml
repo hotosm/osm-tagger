@@ -14,7 +14,7 @@ on:
     outputs:
       image_tag:
         description: "Image tag"
-        value: ${{ jobs.build-osm-tagger.outputs.image_tag }}
+        value: ${{ jobs.build-push-image.outputs.image_tag }}
 
 permissions:
   id-token: write
@@ -28,7 +28,7 @@ jobs:
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
 
-  build-osm-tagger:
+  build-push-image:
     needs: cleanup
     runs-on: ubuntu-latest
     outputs:
@@ -67,6 +67,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
 
       - name: Output image tag
         id: image_tag
