@@ -42,7 +42,8 @@ jobs:
         with:
           aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
           role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
-          role-session-name: gh-ci-ecs-deploy-${{ github.ref_name }}
+          # role-session-name: gh-ci-ecs-deploy-${{ github.ref_name }}
+          role-session-name: gh-ci-ecs-deploy-main
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3

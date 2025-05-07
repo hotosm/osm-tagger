@@ -19,8 +19,6 @@ data "aws_subnet" "private" {
   ], count.index)
 }
 
-# TODO: attachment to ALB, DNS, etc.
-
 # ECR repositories
 module "osm_tagger_repo" {
   source = "../../modules/ecr_repo"
@@ -134,6 +132,31 @@ module "tagging_db" {
   }
 }
 
+# Create ALB for ECS service
+module "alb" {
+  source = "git::https://github.com/hotosm/terraform-aws-alb.git?ref=v1.1"
+
+  alb_name          = "osm-tagger-alb"
+  target_group_name = "osm-tagger-tg"
+  vpc_id            = data.aws_vpc.main.id
+  alb_subnets       = data.aws_subnet.private[*].id
+  app_port          = 8000 # Tagger API port
+
+  health_check_path = "/api/health"
+  ip_address_type   = "ipv4"
+
+  default_tags = {
+    project        = "osm-tagger"
+    environment    = "dev"
+    maintainer     = ""
+    documentation  = ""
+    cost_center    = ""
+    IaC_Management = "Terraform"
+  }
+
+  acm_tls_cert_backend_arn = "arn:aws:acm:us-east-1:670261699094:certificate/1d74321b-1e5b-4e31-b97a-580deb39c539"
+}
+
 # ECS Service
 module "ecs_cluster" {
   source = "../../modules/ecs_cluster"
@@ -147,8 +170,6 @@ module "ecs_cluster" {
 }
 
 # ECS Service
-
-# TODO: create cloudwatch log groups for osm-tagger and ollama
 resource "aws_cloudwatch_log_group" "osm_tagger" {
   name = "/ecs/osm-tagger"
 
@@ -257,10 +278,18 @@ module "ecs" {
     }
   }
 
-  # container_cpu_architecture = "ARM64"
-  container_cpu_architecture = "X86_64"
-  force_new_deployment       = true
-  task_role_arn              = aws_iam_role.ecs_task_role.arn
+  container_cpu_architecture = "ARM64"
+  # container_cpu_architecture = "X86_64"
+  force_new_deployment = true
+  task_role_arn        = aws_iam_role.ecs_task_role.arn
+
+  load_balancer_settings = {
+    enabled                 = true
+    arn_suffix              = ""
+    target_group_arn        = module.alb.target_group_arn
+    target_group_arn_suffix = ""
+    scaling_request_count   = 50
+  }
 
   # Required networking settings
   aws_vpc_id       = data.aws_vpc.main.id
