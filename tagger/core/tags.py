@@ -70,10 +70,10 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     category = request.category
     image = request.image
 
-    base64_image = download_and_resize_image(image.url)
+    base64_image = resize_image(download_image_url(image.url), max_size=240)
 
     image_embedding_value = VISION_EMBEDDING_MODEL.image_embedding([base64_image])[0]
-    similar_image_tags = get_similar_images(image_embedding_value, k=3)
+    similar_image_tags = get_similar_images(image_embedding_value, k=1)
 
     print("SIMILAR IMAGE TAGS:", similar_image_tags)
 
@@ -161,23 +161,31 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     )
 
 
-def download_and_resize_image(image_url: str, max_size: int = 1120) -> str:
+def download_image_url(image_url: str) -> BytesIO:
     # Download image
     response = requests.get(image_url)
-    img = PILImage.open(BytesIO(response.content))
+    image_data = BytesIO(response.content)
+    image_data.seek(0)  # Reset buffer position to start
+    return image_data
 
-    # Calculate new dimensions preserving aspect ratio
-    ratio = min(max_size / img.width, max_size / img.height)
-    new_size = (int(img.width * ratio), int(img.height * ratio))
 
-    # Resize image
-    img = img.resize(new_size, PILImage.Resampling.LANCZOS)
+# def download_and_resize_image(image_url: str, max_size: int = 1120) -> str:
+#     # Download and resize image
+#     image_data = download_image(image_url)
+#     img = PILImage.open(image_data)
 
-    # Convert back to bytes for API
-    img_byte_arr = BytesIO()
-    img.save(img_byte_arr, format="png")
+#     # Calculate new dimensions preserving aspect ratio
+#     ratio = min(max_size / img.width, max_size / img.height)
+#     new_size = (int(img.width * ratio), int(img.height * ratio))
 
-    return base64.b64encode(img_byte_arr.getvalue()).decode("utf-8")
+#     # Resize image
+#     img = img.resize(new_size, PILImage.Resampling.LANCZOS)
+
+#     # Convert back to bytes for API
+#     img_byte_arr = BytesIO()
+#     img.save(img_byte_arr, format="png")
+
+#     return base64.b64encode(img_byte_arr.getvalue()).decode("utf-8")
 
 
 def get_similar_images(
@@ -210,7 +218,7 @@ def get_similar_images(
         ]
 
 
-def download_image(image_s3_url: str) -> str:
+def download_image_s3(image_s3_url: str) -> BytesIO:
     # Parse S3 URL
     parsed_url = urlparse(image_s3_url)
     bucket = parsed_url.netloc
@@ -221,6 +229,23 @@ def download_image(image_s3_url: str) -> str:
     image_data = BytesIO()
     bucket.download_fileobj(key, image_data)
     image_data.seek(0)  # Reset buffer position to start
+    return image_data
+
+
+def resize_image(image_data: BytesIO, max_size: int = 1120) -> str:
+    # Resize image
+    img = PILImage.open(image_data)
+
+    # Calculate new dimensions preserving aspect ratio
+    ratio = min(max_size / img.width, max_size / img.height)
+    new_size = (int(img.width * ratio), int(img.height * ratio))
+
+    # Resize image
+    img = img.resize(new_size, PILImage.Resampling.LANCZOS)
+
+    # Convert back to bytes for API
+    img_byte_arr = BytesIO()
+    img.save(img_byte_arr, format="png")
 
     # Convert to base64
-    return base64.b64encode(image_data.getvalue()).decode("utf-8")
+    return base64.b64encode(img_byte_arr.getvalue()).decode("utf-8")

@@ -19,8 +19,6 @@ data "aws_subnet" "private" {
   ], count.index)
 }
 
-# TODO: attachment to ALB, DNS, etc.
-
 # ECR repositories
 module "osm_tagger_repo" {
   source = "../../modules/ecr_repo"
@@ -134,6 +132,31 @@ module "tagging_db" {
   }
 }
 
+# Create ALB for ECS service
+module "alb" {
+  source = "git::https://github.com/hotosm/terraform-aws-alb.git?ref=v1.1"
+
+  alb_name          = "osm-tagger-alb"
+  target_group_name = "osm-tagger-tg"
+  vpc_id            = data.aws_vpc.main.id
+  alb_subnets       = data.aws_subnet.private[*].id
+  app_port          = 8000 # Tagger API port
+
+  health_check_path = "/api/health"
+  ip_address_type   = "ipv4"
+
+  default_tags = {
+    project        = "osm-tagger"
+    environment    = "dev"
+    maintainer     = ""
+    documentation  = ""
+    cost_center    = ""
+    IaC_Management = "Terraform"
+  }
+
+  acm_tls_cert_backend_arn = "arn:aws:acm:us-east-1:670261699094:certificate/1d74321b-1e5b-4e31-b97a-580deb39c539"
+}
+
 # ECS Service
 module "ecs_cluster" {
   source = "../../modules/ecs_cluster"
@@ -147,8 +170,6 @@ module "ecs_cluster" {
 }
 
 # ECS Service
-
-# TODO: create cloudwatch log groups for osm-tagger and ollama
 resource "aws_cloudwatch_log_group" "osm_tagger" {
   name = "/ecs/osm-tagger"
 
@@ -180,6 +201,8 @@ module "ecs" {
     IaC_Management = "Terraform"
   }
 
+  container_ephemeral_storage = 40
+
   container_settings = {
     service_name = "osm-tagger"
     app_port     = 8000
@@ -189,11 +212,11 @@ module "ecs" {
 
   # Using 1 vCPU with 4GB RAM for API
   container_capacity = {
-    cpu       = 2048 # 2 vCPU
-    memory_mb = 4096 # 4GB RAM
+    cpu       = 4096  # 4 vCPU
+    memory_mb = 16384 # 16GB RAM
   }
 
-  container_commands = ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+  # container_commands = ["uvicorn", "tagger.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
   container_secrets = {
     DB_HOST = "${module.tagging_db.database_credentials}:host::"
@@ -211,27 +234,29 @@ module "ecs" {
   #   DB_PASSWORD = module.tagging_db.database_config_as_ecs_secrets_inputs[0]
   # }
 
-  container_envvars = {}
+  container_envvars = {
+    AWS_REGION = "us-east-1"
+  }
 
   # Second container for Ollama
   additional_container_definitions = [
     {
-      name      = "ollama"
-      image     = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:${var.ollama_image_tag}"
-      command   = ["ollama", "serve"]
-      cpu       = 2048
-      memory_mb = 8192
+      name  = "ollama"
+      image = "ghcr.io/hotosm/osm-tagger/osm-tagger-ollama:${var.ollama_image_tag}"
+      # command = ["ollama", "serve"]
+      cpu    = 4096
+      memory = 16384
       portMappings = [
         {
           containerPort = 11434
           hostPort      = 11434
         }
       ]
-      log_configuration = {
+      logConfiguration = {
         logdriver = "awslogs"
         options = {
           awslogs-group         = aws_cloudwatch_log_group.osm_tagger_ollama.name
-          awslogs-region        = "us-east-1" # Replace with your region
+          awslogs-region        = "us-east-1"
           awslogs-stream-prefix = "ecs"
         }
       }
@@ -254,8 +279,17 @@ module "ecs" {
   }
 
   container_cpu_architecture = "ARM64"
-  force_new_deployment       = true
-  task_role_arn              = aws_iam_role.ecs_task_role.arn
+  # container_cpu_architecture = "X86_64"
+  force_new_deployment = true
+  task_role_arn        = aws_iam_role.ecs_task_role.arn
+
+  load_balancer_settings = {
+    enabled                 = true
+    arn_suffix              = module.alb.load_balancer_arn_suffix
+    target_group_arn        = module.alb.target_group_arn
+    target_group_arn_suffix = module.alb.target_group_arn_suffix
+    scaling_request_count   = 50
+  }
 
   # Required networking settings
   aws_vpc_id       = data.aws_vpc.main.id
