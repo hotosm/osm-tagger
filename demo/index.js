@@ -16,16 +16,16 @@ class Index {
   }
 
   init = () => {
-    const DEFAULT_IMG = "https://wiki.openstreetmap.org/w/images/1/10/Potholes_at_the_Level_Crossing%2C_Barrow_Haven_-_geograph.org.uk_-_1621073.jpg";
+    const DEFAULT_IMG = "https://umap.hotosm.org/media_file/00000030-PHOTO-2025-02-04-07-03-24.jpg";
     this.imgInput.setAttribute("defaultValue", DEFAULT_IMG);
-    this.imgPreview.setAttribute("style", "background-image: url('https://wiki.openstreetmap.org/w/images/1/10/Potholes_at_the_Level_Crossing%2C_Barrow_Haven_-_geograph.org.uk_-_1621073.jpg')");
+    this.imgPreview.setAttribute("style", `background-image: url('${DEFAULT_IMG}')`);
   }
 
   // Get tags from API and dispay results
   handleGetTagsClick = async () => {
     const api = new API();
 
-    this.imgPreview.style = "";
+    this.imgPreview.setAttribute("style", `background-image: url('${this.imgInput.value}')`);
     this.tagList.data = [];
 
     // Show loading message
@@ -52,7 +52,6 @@ class Index {
     // Update page
     if (result && result.tags) {
       this.tagList.data = result.tags;
-      this.imgPreview.style = `background-image: url("${this.imgInput.value}")`;
     }
 
   };

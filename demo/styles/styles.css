@@ -1,7 +1,7 @@
 
 
 body {
-  @apply: p-10;
+  @apply: p-20;
   font-family: "Archivo", helvetica, arial, sans-serif;
   display: grid;
   place-items: center;
@@ -29,17 +29,33 @@ h2 {
   width: 500px;
   min-height: 80vh;
   background-color: var(--sl-color-neutral-0);
-  @apply p-5 r-4 rounded-lg shadow-md;
+  box-shadow: rgba(0,0,0,.2) 0 0 15px;
+  @apply p-5 r-4 rounded-lg;
+}
+
+.footerMsg, .footerMsg a {
+  text-align: center;
+  width: 500px;
+  color: var(--sl-color-rose-200);
+  @apply: mt-8;
+}
+
+.footerMsg small {
+  font-size: --var(--sl-font-size-small);
 }
 
 /* Loading message */
 
 .loading {
+  gap: var(--sl-spacing-x-small);
+  align-items: left;
+  justify-content: center;
+  @apply: mt-4;
   display: none;
 }
 
 .loading.show {
-  display: block;
+  display: flex;
 }
 
 /* Partner logos */
@@ -70,4 +86,18 @@ h2 {
 
 .tagList {
   @apply mt-4;
+}
+
+/* Error msgs */
+
+.errorMsg .icon {
+  font-size: 2rem;
+  @apply mb-0 pb-0;
+}
+
+.iconMsg {
+  display: flex;
+  gap: var(--sl-spacing-x-small);
+  align-items: left;
+  justify-content: center;
 }

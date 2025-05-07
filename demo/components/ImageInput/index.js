@@ -28,6 +28,10 @@ class ImageInput extends HTMLElement {
               id="button"
               onclick="${this.onAction}"
           >
+            <sl-icon
+              name="stars"
+            >
+            </sl-icon>
             Get tags
           </sl-button>
 
