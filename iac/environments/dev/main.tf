@@ -154,9 +154,7 @@ module "alb" {
     IaC_Management = "Terraform"
   }
 
-  # Using the certificate ARN from the variable
-  # TODO: create ACM certificate
-  acm_tls_cert_backend_arn = var.acm_tls_cert_backend_arn
+  acm_tls_cert_backend_arn = "arn:aws:acm:us-east-1:670261699094:certificate/1d74321b-1e5b-4e31-b97a-580deb39c539"
 }
 
 # ECS Service
@@ -172,8 +170,6 @@ module "ecs_cluster" {
 }
 
 # ECS Service
-
-# TODO: create cloudwatch log groups for osm-tagger and ollama
 resource "aws_cloudwatch_log_group" "osm_tagger" {
   name = "/ecs/osm-tagger"
 
