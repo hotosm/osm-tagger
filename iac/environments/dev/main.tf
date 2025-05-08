@@ -198,7 +198,7 @@ resource "aws_security_group" "osm_tagger_service_sg" {
     from_port       = 8000
     to_port         = 8000
     protocol        = "tcp"
-    security_groups = [module.alb.load_balancer_public_security_group]
+    security_groups = [module.alb.app_security_group]
   }
 
   # Allow all traffic between tasks in the security group
