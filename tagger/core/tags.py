@@ -8,6 +8,7 @@ import base64
 
 from PIL import Image as PILImage
 from pydantic import BaseModel, Field
+from sqlalchemy import desc
 from sqlmodel import Session, select
 import requests
 import boto3
@@ -74,7 +75,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     image_embedding_value = VISION_EMBEDDING_MODEL.image_embedding([base64_image])[0]
     similar_image_tags = get_similar_images(image_embedding_value, k=1)
 
-    # print("SIMILAR IMAGE TAGS:", similar_image_tags)
+    print("SIMILAR IMAGE TAGS:", similar_image_tags)
 
     generated_tags = VISION_MODEL.completion(
         messages=[
@@ -103,11 +104,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
                 for message in [
                     # ImageMessage(
                     #     role="user",
-                    #     images_base64=[
-                    #         resize_image(
-                    #             download_image_s3(result["image_url"]), max_size=240
-                    #         )
-                    #     ],
+                    #     images_base64=[download_image(result["image_url"])],
                     # ),
                     TextMessage(
                         role="user",
@@ -202,7 +199,10 @@ def get_similar_images(
                     "distance"
                 ),
             )
-            .order_by(TagEmbedding.image_embeddings.cosine_distance(image_embeddings))
+            .order_by(
+                TagEmbedding.image_embeddings.cosine_distance(image_embeddings),
+                desc(TagEmbedding.image_embeddings.cosine_distance(image_embeddings)),
+            )
             .limit(k)
         )
 

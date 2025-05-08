@@ -10,3 +10,7 @@ __pycache__
 **/.terraform
 **/.terraform.lock.hcl
 *.tfstate
+
+# OS files
+.DS_Store
+

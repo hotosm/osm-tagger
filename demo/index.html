@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>OSM Tagger Demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <script type="module">
+      import Index from './index.js'
+      import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
+      import '@shoelace-style/shoelace/dist/components/alert/alert.js';
+      import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+      import './components/TagList/index.js';
+      import './components/ImageInput/index.js';
+      import './styles/hot-sl.css';
+      window.app = { index:  new Index() };
+    </script>
+  </head>
+  <body>
+    <div class="main">
+
+      <img src="/assets/hot-logo-icon.svg" class="hot-logo" alt="Fulton Ring" />
+      <h1><strong>OSM Tagger</strong> demo</h1>
+
+      <div class="partner-logos">
+        <img 
+          src="/assets/fulton-ring-logo.svg"
+          class="fulton-ring"
+          alt="Fulton Ring" 
+        />
+        <img
+          src="/assets/tech-to-the-rescue-logo.svg"
+          class="tech-to-the-rescue"
+          alt="Tech to the Rescue"
+        />
+      </div>
+
+      <h2>
+        Enter an URL of a <strong>road image</strong> (street level)<br />
+        and extract relevant tags
+      </h2>
+
+      <div class="imageInput">
+        <image-input
+          id="imageInput"
+          onAction="app.index.handleGetTagsClick()"
+          defaultValue="https://umap.hotosm.org/media_file/00000030-PHOTO-2025-02-04-07-03-24.jpg"
+        ></image-input>
+      </div>
+
+      <div class="tagList">
+        <tag-list id="tagList"></tag-list>
+      </div>
+
+      <div id="loadingMsg" class="loading">
+        <sl-spinner></sl-spinner>
+        <span>Analyzing ...</span>
+      </div>
+
+      <div class="errorMsg">
+        <sl-alert id="errorMsg">
+          <h2 class="icon"><sl-icon size="large" slot="icon" name="info-circle"></sl-icon></h2>
+          <h3>Oops! something went wrong.</h3>
+          Please check that your image's URL is valid.
+        </sl-alert>
+      </div>
+      <div
+        class="imgPreview"
+        id="imgPreview"
+      ></div>
+    </div>
+
+    <div class="footerMsg">
+      <p class="iconMsg">
+        <sl-icon slot="icon" name="info-circle"></sl-icon>
+        <span>
+          Image files uploaded in this page will be sent to be analyzed<br /> and/or stored by services hosted on AWS.
+        </span>
+      </p>
+      <small>
+        More information: <br />
+        <a href="https://github.com/hotosm/osm-tagger">https://github.com/hotosm/osm-tagger</a><br />
+        <a href="https://www.hotosm.org/privacy">https://www.hotosm.org/privacy</a>
+      </small>
+    </div>
+  </body>
+</html>

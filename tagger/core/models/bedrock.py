@@ -1,13 +1,13 @@
-from typing import List, Union
+from typing import List, Literal, Union
 
 from litellm import completion
 
 from tagger.core.models.interface import VisionModel, TextMessage, ImageMessage
 
 
-class Llama3211BVisionBedrock(VisionModel):
-    def __init__(self):
-        return
+class Llama32VisionBedrock(VisionModel):
+    def __init__(self, parameter_id: Literal["90b", "11b"]):
+        self.parameter_id = parameter_id
 
     def completion(self, messages: List[Union[TextMessage, ImageMessage]]) -> str:
         messages_for_completion = []
@@ -34,7 +34,7 @@ class Llama3211BVisionBedrock(VisionModel):
                 )
 
         result = completion(
-            model="bedrock/us.meta.llama3-2-11b-instruct-v1:0",
+            model=f"bedrock/us.meta.llama3-2-{self.parameter_id}-instruct-v1:0",
             messages=messages_for_completion,
         )
 

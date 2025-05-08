@@ -1,0 +1,103 @@
+
+
+body {
+  @apply: p-10;
+  font-family: "Archivo", helvetica, arial, sans-serif;
+  display: grid;
+  place-items: center;
+  background: url("/assets/background.png");
+  background-size: cover;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+h1 strong {
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: normal;
+  line-height: var(--sl-line-height-dense);
+}
+
+/* Main container */
+
+.main {
+  text-align: center;
+  width: 500px;
+  min-height: 80vh;
+  background-color: var(--sl-color-neutral-0);
+  box-shadow: rgba(0,0,0,.2) 0 0 15px;
+  @apply p-5 r-4 rounded;
+}
+
+.footerMsg, .footerMsg a {
+  text-align: center;
+  width: 500px;
+  color: var(--sl-color-rose-200);
+  @apply: mt-8;
+}
+
+.footerMsg small {
+  font-size: --var(--sl-font-size-small);
+}
+
+/* Loading message */
+
+.loading {
+  gap: var(--sl-spacing-x-small);
+  align-items: left;
+  justify-content: center;
+  @apply: mt-4;
+  display: none;
+}
+
+.loading.show {
+  display: flex;
+}
+
+/* Partner logos */
+
+.partner-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partner-logos img {
+  height: 30px;
+}
+
+.tech-to-the-rescue {
+  width: 160px;
+}
+
+/* Components wrappers */
+
+.imgPreview {
+  width: 100%;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  @apply rounded mt-8;
+}
+
+.tagList {
+  @apply mt-4;
+}
+
+/* Error msgs */
+
+.errorMsg .icon {
+  font-size: 2rem;
+  @apply mb-0 pb-0;
+}
+
+.iconMsg {
+  display: flex;
+  gap: var(--sl-spacing-x-small);
+  align-items: left;
+  justify-content: center;
+}
