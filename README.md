@@ -52,7 +52,7 @@ credentials (`aws_access_key_id`, `aws_secret_access_key`).
 You'll need to upload images to the Bucket, these are +9000 images of roads downloaded from Mapillary
 that will help OSM Tagger to do the work and return a confidence value:
 
-_(A link will be available soon)_
+https://drive.google.com/file/d/1rNhUnXxmTjkCvbw6TuKc-0MgEIRsWxq4/view?usp=drive_link
 
 Download the .zip file, un-compress it and upload the files to your bucket.
 
