@@ -188,6 +188,41 @@ resource "aws_cloudwatch_log_group" "osm_tagger_ollama" {
   }
 }
 
+resource "aws_security_group" "osm_tagger_service_sg" {
+  name        = "osm-tagger-service-sg"
+  description = "Security group for osm-tagger service"
+  vpc_id      = data.aws_vpc.main.id
+
+  # Allow inbound traffic from ALB
+  ingress {
+    from_port       = 8000
+    to_port         = 8000
+    protocol        = "tcp"
+    security_groups = [module.alb.alb_security_group_id]
+  }
+
+  # Allow all traffic between tasks in the security group
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    self      = true
+  }
+
+  # Allow all outbound traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    project     = "osm-tagger"
+    environment = "dev"
+  }
+}
+
 module "ecs" {
   source = "git::https://github.com/fulton-ring/terraform-aws-ecs.git?ref=additional-containers"
 
@@ -290,6 +325,10 @@ module "ecs" {
     target_group_arn_suffix = module.alb.target_group_arn_suffix
     scaling_request_count   = 50
   }
+
+  service_security_groups = [
+    aws_security_group.osm_tagger_service_sg.id
+  ]
 
   # Required networking settings
   aws_vpc_id       = data.aws_vpc.main.id
