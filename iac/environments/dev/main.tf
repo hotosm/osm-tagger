@@ -350,7 +350,6 @@ module "ecs" {
   # Required networking settings
   aws_vpc_id       = data.aws_vpc.main.id
   service_subnets  = data.aws_subnet.private[*].id
-  service_security_groups = [module.alb.load_balancer_app_security_group]
   ecs_cluster_name = module.ecs_cluster.cluster_name
   ecs_cluster_arn  = module.ecs_cluster.cluster_arn
 }
