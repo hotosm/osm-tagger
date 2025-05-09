@@ -342,7 +342,7 @@ module "ecs" {
     container_min_count = 1
     container_max_count = 1
   }
-  
+
   service_security_groups = [
     aws_security_group.osm_tagger_service_sg.id
   ]
