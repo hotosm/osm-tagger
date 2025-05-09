@@ -19,6 +19,18 @@ data "aws_subnet" "private" {
   ], count.index)
 }
 
+data "aws_subnet" "public" {
+  count = 6
+  id = element([
+    "subnet-6ba8e81c",
+    "subnet-47e2861e",
+    "subnet-5a119a3f",
+    "subnet-f4f977df",
+    "subnet-35b98b0f",
+    "subnet-75902c79"
+  ], count.index)
+}
+
 # ECR repositories
 module "osm_tagger_repo" {
   source = "../../modules/ecr_repo"
@@ -139,7 +151,7 @@ module "alb" {
   alb_name          = "osm-tagger-alb"
   target_group_name = "osm-tagger-tg"
   vpc_id            = data.aws_vpc.main.id
-  alb_subnets       = data.aws_subnet.private[*].id
+  alb_subnets       = data.aws_subnet.public[*].id
   app_port          = 8000 # Tagger API port
 
   health_check_path = "/api/health"
@@ -291,9 +303,15 @@ module "ecs" {
     scaling_request_count   = 50
   }
 
+  scaling_target_values = {
+    container_min_count = 1
+    container_max_count = 1
+  }
+
   # Required networking settings
   aws_vpc_id       = data.aws_vpc.main.id
   service_subnets  = data.aws_subnet.private[*].id
+  service_security_groups = [module.alb.load_balancer_app_security_group]
   ecs_cluster_name = module.ecs_cluster.cluster_name
   ecs_cluster_arn  = module.ecs_cluster.cluster_arn
 }
