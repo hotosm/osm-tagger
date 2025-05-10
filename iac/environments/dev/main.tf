@@ -327,7 +327,9 @@ module "ecs" {
   }
 
   service_security_groups = [
-    aws_security_group.osm_tagger_service_sg.id
+    aws_security_group.osm_tagger_service_sg.id,
+    module.alb.load_balancer_app_security_group,
+    module.tagging_db.database_security_group_id
   ]
 
   # Required networking settings
