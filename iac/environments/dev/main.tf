@@ -265,14 +265,16 @@ module "ecs" {
 
   # container_commands = ["uvicorn", "tagger.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
+
+
   container_secrets = {
     DB_HOST = "${module.tagging_db.database_credentials}:host::"
-    DB_PORT = "${module.tagging_db.database_credentials}:port::"
+    # DB_PORT = "${module.tagging_db.database_credentials}:port::"
     # DB_NAME     = "${module.tagging_db.database_credentials}:dbname::"
-    DB_NAME     = "${module.tagging_db.database_credentials}"
     DB_USER     = "${module.tagging_db.database_credentials}:username::"
     DB_PASSWORD = "${module.tagging_db.database_credentials}:password::"
   }
+
   # container_secrets = {
   #   DB_HOST     = "${module.tagging_db.database_config_as_ecs_inputs.POSTGRES_ENDPOINT}::"
   #   DB_PORT     = "${module.tagging_db.database_config_as_ecs_inputs.POSTGRES_PORT}::"
@@ -283,6 +285,8 @@ module "ecs" {
 
   container_envvars = {
     AWS_REGION = "us-east-1"
+    DB_NAME    = "osm_tagger_tagging_db"
+    DB_PORT    = "5432"
   }
 
   # Second container for Ollama
