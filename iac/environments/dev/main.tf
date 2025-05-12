@@ -268,6 +268,7 @@ module "ecs" {
 
 
   container_secrets = {
+    DB      = "${module.tagging_db.database_credentials}"
     DB_HOST = "${module.tagging_db.database_credentials}:host::"
     # DB_PORT = "${module.tagging_db.database_credentials}:port::"
     # DB_NAME     = "${module.tagging_db.database_credentials}:dbname::"
