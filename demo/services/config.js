@@ -1,6 +1,6 @@
 
 const CONFIG = {
-    API_URL: "http://127.0.0.1:8000/api/v1/"
+    API_URL: "https://osm-tagger.hotosm.org/api/v1/"
 };
 
 export default CONFIG;
