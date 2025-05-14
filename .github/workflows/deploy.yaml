@@ -1,0 +1,32 @@
+name: Deploy Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-osm-tagger:
+    uses: ./.github/workflows/build.yaml
+    with:
+      dockerfile: dockerfiles/app.dockerfile
+      image_name: ghcr.io/${{ github.repository }}/osm-tagger
+
+  build-ollama:
+    uses: ./.github/workflows/build.yaml
+    with:
+      dockerfile: dockerfiles/ollama.dockerfile
+      image_name: ghcr.io/${{ github.repository }}/osm-tagger-ollama
+
+  deploy-infra:
+    needs: [build-osm-tagger, build-ollama]
+    uses: ./.github/workflows/infra.yaml
+    with:
+      app_image_tag: ${{ needs.build-osm-tagger.outputs.image_tag }}
+      ollama_image_tag: ${{ needs.build-ollama.outputs.image_tag }}
+    secrets:
+      AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}

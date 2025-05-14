@@ -1,0 +1,16 @@
+# Python files
+.venv
+__pycache__
+
+# Environment variables
+.env*
+.vscode
+
+# Terraform
+**/.terraform
+**/.terraform.lock.hcl
+*.tfstate
+
+# OS files
+.DS_Store
+

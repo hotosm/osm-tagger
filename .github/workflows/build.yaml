@@ -1,0 +1,74 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        description: "Image name"
+        required: true
+        type: string
+      dockerfile:
+        description: "Dockerfile to build"
+        required: true
+        type: string
+    outputs:
+      image_tag:
+        description: "Image tag"
+        value: ${{ jobs.build-push-image.outputs.image_tag }}
+
+permissions:
+  id-token: write
+  contents: read
+  packages: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+  build-push-image:
+    needs: cleanup
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.image_tag.outputs.image_tag }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ inputs.image_name }}
+          tags: |
+            type=raw,value=${{ github.sha }}
+            type=ref,event=branch
+            type=ref,event=tag
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ${{ inputs.dockerfile }}
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/arm64
+
+      - name: Output image tag
+        id: image_tag
+        run: echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
