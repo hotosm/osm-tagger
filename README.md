@@ -6,6 +6,10 @@ Together, we're diving into development of an AI-powered API for generating vali
 
 We kicked off the project in February/March 2025 and aim to have the work delivered by end of June 2025.
 
+## Demo
+
+Try it [here](https://hotosm.github.io/osm-tagger/)
+
 ## Setup & run
 
 ### Model (local)
