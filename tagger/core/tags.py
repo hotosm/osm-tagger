@@ -7,6 +7,7 @@ import base64
 
 
 from PIL import Image as PILImage
+from fastapi import UploadFile
 from pydantic import BaseModel, Field
 from sqlalchemy import desc
 from sqlmodel import Session, select
@@ -66,18 +67,19 @@ class GeneratedTagsSchema(BaseModel):
     )
 
 
-def generate_tags(request: TagsRequest) -> TagsResponse:
-    category = request.category
-    image = request.image
+def generate_tags_from_base64(category: str, base64_image: str) -> TagsResponse:
+    # category = request.category
+    # image = request.image
 
-    base64_image = resize_image(download_image_url(image.url), max_size=240)
+    # base64_image = resize_image(download_image_url(image.url), max_size=240)
 
     image_embedding_value = VISION_EMBEDDING_MODEL.image_embedding([base64_image])[0]
-    similar_image_tags = get_similar_images(image_embedding_value, k=1)
+    # TODO: bias images by lat and lon
+    similar_image_tags = get_similar_images(image_embedding_value, k=3)
 
     print("SIMILAR IMAGE TAGS:", similar_image_tags)
 
-    generated_tags = VISION_MODEL.completion(
+    generated_tags = VISION_MODEL.vision_completion(
         messages=[
             TextMessage(
                 role="system",
@@ -126,7 +128,7 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
     # print("GENERATED TAGS:", generated_tags)
 
     # Extract JSON from the response
-    tags_json: GeneratedTagsSchema = JSON_OUTPUT_MODEL.completion(
+    tags_json: GeneratedTagsSchema = JSON_OUTPUT_MODEL.json_completion(
         messages=[
             TextMessage(
                 role="system",
@@ -159,6 +161,26 @@ def generate_tags(request: TagsRequest) -> TagsResponse:
             for tag in tags_json.tags
         ]
     )
+
+
+def generate_tags(request: TagsRequest) -> TagsResponse:
+    category = request.category
+    image_url = request.image.url
+
+    base64_image = resize_image(download_image_url(image_url), max_size=240)
+
+    return generate_tags_from_base64(category, base64_image)
+
+
+def generate_tags_upload(
+    category: str, lat: float, lon: float, image: UploadFile
+) -> TagsResponse:
+
+    # Read bytes and convert to base64 before resizing to avoid UTF-8 decode error
+    image_data = BytesIO(image.file.read())
+    base64_image = resize_image(image_data, max_size=240)
+
+    return generate_tags_from_base64(category, base64_image)
 
 
 def download_image_url(image_url: str) -> BytesIO:
