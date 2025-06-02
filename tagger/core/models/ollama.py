@@ -21,7 +21,9 @@ class VisionOllama(VisionModel):
     def __init__(self, api_base: str = "http://localhost:11434"):
         self.api_base = api_base
 
-    def completion(self, messages: List[Union[TextMessage, ImageMessage]]) -> str:
+    def vision_completion(
+        self, messages: List[Union[TextMessage, ImageMessage]], **kwargs
+    ) -> str:
         messages_for_completion = []
         for message in messages:
             if isinstance(message, ImageMessage):
@@ -60,9 +62,9 @@ class Phi4MiniJSONOutputOllama(JSONOutputTextModel):
     def __init__(self, api_base: str = "http://localhost:11434"):
         self.api_base = api_base
 
-    def completion(
-        self, messages: List[Union[TextMessage]], schema: BaseModel
-    ) -> BaseModel:
+    def json_completion[T: BaseModel](
+        self, messages: List[TextMessage], schema: type[T]
+    ) -> T:
         result = completion(
             model="ollama_chat/phi4-mini",
             api_base=self.api_base,

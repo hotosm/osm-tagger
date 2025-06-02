@@ -10,9 +10,10 @@ import outlines.models.transformers
 from tagger.api.schema.tags import Coordinates, Image, Tags, TagsRequest
 from tagger.core.models.transformers import NomicVisionEmbeddingModel
 from tagger.core.tags import (
-    download_and_resize_image,
+    download_image_url,
     generate_tags,
     get_similar_images,
+    resize_image,
 )
 
 
@@ -54,14 +55,14 @@ def test_generate_tags_rough_road():
 
 def test_image_retrieval_by_embedding():
     # get embedding for image
-    image_base64 = download_and_resize_image(
+    image_base64 = download_image_url(
         # gray-asphalt-road-between-green-trees-during-daytime
         "https://images.unsplash.com/photo-1595787572714-496673f87f71?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     )
 
     model = NomicVisionEmbeddingModel()
 
-    image_embedding_base64 = model.image_embedding([image_base64])[0]
+    image_embedding_base64 = model.image_embedding([resize_image(image_base64)])[0]
 
     # query db for similar images
     similar_images = get_similar_images(image_embedding_base64)

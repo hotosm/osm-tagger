@@ -20,9 +20,9 @@ class LanguageModel(ABC):
 
 
 class JSONOutputTextModel(ABC):
-    def json_completion(
-        self, messages: List[Union[TextMessage]], schema: BaseModel
-    ) -> BaseModel:
+    def json_completion[T: BaseModel](
+        self, messages: List[TextMessage], schema: type[T]
+    ) -> T:
         raise NotImplementedError("Completion not implemented")
 
 
@@ -34,9 +34,9 @@ class VisionModel(ABC):
 
 
 class JSONOutputVisionModel(ABC):
-    def json_vision_completion(
-        self, messages: List[Union[TextMessage, ImageMessage]], schema: BaseModel
-    ) -> BaseModel:
+    def json_vision_completion[T](
+        self, messages: List[Union[TextMessage, ImageMessage]], schema: type[T]
+    ) -> T:
         raise NotImplementedError("Completion not implemented")
 
 
