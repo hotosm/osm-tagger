@@ -23,7 +23,7 @@ Then, depending on your hardware, select and download an Ollama model.
 Currently we support: `ollama/llava:34b` and `llama3.2-vision:11b`.
 
 ```sh
-ollama pull ollama/llama3.2-vision:11b
+ollama pull llama3.2-vision:11b
 ```
 
 And configure `config/models.py` accordingly.
