@@ -9,7 +9,11 @@ class Llama32VisionBedrock(VisionModel):
     def __init__(self, parameter_id: Literal["90b", "11b"]):
         self.parameter_id = parameter_id
 
-    def completion(self, messages: List[Union[TextMessage, ImageMessage]]) -> str:
+    def vision_completion(
+        self,
+        messages: List[Union[TextMessage, ImageMessage]],
+        **kwargs,
+    ) -> str:
         messages_for_completion = []
 
         for message in messages:
