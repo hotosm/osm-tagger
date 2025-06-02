@@ -14,7 +14,7 @@ from sqlmodel import Session, select
 import requests
 import boto3
 
-from tagger.api.schema.tags import Tags, TagsRequest, TagsResponse
+from tagger.api.schema.tags import Coordinates, Tags, TagsRequest, TagsResponse
 from tagger.config.models import JSON_OUTPUT_MODEL, VISION_EMBEDDING_MODEL, VISION_MODEL
 from tagger.config.db import TAGGING_DB_ENGINE
 from tagger.config.storage import S3_CLIENT
@@ -238,6 +238,26 @@ def get_similar_images(
             }
             for result in results
         ]
+
+
+def save_tag_embedding(
+    category: str,
+    image_url: str,
+    image_embeddings: List[float],
+    coordinates: Coordinates,
+    tags: List[Tags],
+):
+    with Session(TAGGING_DB_ENGINE) as session:
+        tag_embedding = TagEmbedding(
+            id=None,
+            category=category,
+            image_url=image_url,
+            image_embeddings=image_embeddings,
+            coordinates=f"POINT({coordinates.lon} {coordinates.lat})",
+            tags={tag.key: tag.value for tag in tags},
+        )
+        session.add(tag_embedding)
+        session.commit()
 
 
 def download_image_s3(image_s3_url: str) -> BytesIO:
