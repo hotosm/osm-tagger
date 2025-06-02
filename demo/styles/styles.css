@@ -2,11 +2,16 @@
 
 body {
   @apply: p-10;
+  font-size: calc(var(--hot-font-size-x-large) + 3vmin);
   font-family: "Archivo", helvetica, arial, sans-serif;
-  display: grid;
+  /* display: grid; */
   place-items: center;
   background: url("/assets/background.png");
   background-size: cover;
+  margin: 0;
+
+  display: grid;
+  place-items: center;
 }
 
 h1 {
@@ -26,16 +31,31 @@ h2 {
 
 .main {
   text-align: center;
-  width: 500px;
   min-height: 80vh;
+  width: 500px;
+  align-self: center;
   background-color: var(--sl-color-neutral-0);
   box-shadow: rgba(0,0,0,.2) 0 0 15px;
-  @apply p-5 r-4 rounded;
+  @apply p-4 r-4 rounded;
+  box-sizing: border-box;
+}
+
+@media (max-width: 450px) {
+  .main {
+    width: 100%;
+  }
+  body {
+    padding: 0;
+  }
+}
+
+.footerMsg {
+  display: none;
 }
 
 .footerMsg, .footerMsg a {
   text-align: center;
-  width: 500px;
+  /* width: 500px; */
   color: var(--sl-color-rose-200);
   @apply: mt-8;
 }
