@@ -6,7 +6,7 @@ Together, we're diving into development of an AI-powered API for **generating va
 
 We kicked off the project in February/March 2025 and aim to have the work delivered by end of June 2025.
 
-#### *BTW: this tool is an experimental project, is not intended to be used yet by the general user/mapper to update OSM*
+#### _BTW: this tool is an experimental project, is not intended to be used yet by the general user/mapper to update OSM_
 
 ## Demo
 
@@ -98,6 +98,7 @@ You should receive a response with OSM tags:
 
 ```json
 {
+  "tag_id": "f9ed4777-e9ef-46e0-b629-004eba0d2997",
   "tags": [
     {
       "key": "smoothness",
@@ -111,6 +112,42 @@ You should receive a response with OSM tags:
     }
   ]
 }
+```
+
+### Upload API
+
+You can also upload images directly using the `/upload` endpoint:
+
+```
+curl --location 'http://localhost:8000/api/v1/tags/upload' \
+--form 'category="roads"' \
+--form 'lat="6.248001"' \
+--form 'lon="-75.540833"' \
+--form 'image=@"/Users/jeremyherzog/Downloads/bad_unpaved_road.jpg"'
+```
+
+### Curating Tags
+
+Once tags have been confirmed, they can be saved for future use to improve
+accuracy using the `tag_id`:
+
+```
+curl --location 'http://localhost:8000/api/v1/tags/f9ed4777-e9ef-46e0-b629-004eba0d2997' \
+--header 'Content-Type: application/json' \
+--data '{
+    "tags": [
+        {
+            "key": "smoothness",
+            "value": "very_bad",
+            "confidence": 0.9497874632288248
+        },
+        {
+            "key": "surface",
+            "value": "unpaved",
+            "confidence": 0.9497874632288248
+        }
+    ]
+}'
 ```
 
 ## ChatMap
