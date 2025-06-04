@@ -1,6 +1,9 @@
+import os
+
 import boto3
 
 S3_CLIENT = boto3.resource("s3")
+IMAGE_BUCKET = os.getenv("IMAGE_BUCKET", "hotosm-osm-tagger")
 
 # MinIO
 # S3_CLIENT = boto3.resource(
