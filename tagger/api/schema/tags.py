@@ -26,10 +26,9 @@ class Tags(BaseModel):
 
 
 class TagsResponse(BaseModel):
+    tag_id: str
     tags: List[Tags]
 
 
 class SaveTagsRequest(BaseModel):
-    category: str
-    image: Image
     tags: List[Tags]
