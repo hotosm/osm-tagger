@@ -8,10 +8,6 @@ We kicked off the project in February/March 2025 and aim to have the work delive
 
 #### _BTW: this tool is an experimental project, is not intended to be used yet by the general user/mapper to update OSM_
 
-## Demo
-
-Try it [here](https://hotosm.github.io/osm-tagger/)
-
 ## Setup & run
 
 ### Model (local)
@@ -169,3 +165,4 @@ For persisting the data, media can be uploaded to a S3 bucket and the map’s Ge
 OSMTagger API should receive a request with an image URL, geo-location and category, and return OSM valid tags. The category will help the API to decide a prompt and maybe other configurations.
 
 Two models will be used, one focused on extracting text from an image and the other for generating OSM tags from the text. This will divide the problem in two and provide more flexibility for the final solution.
+
