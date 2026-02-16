@@ -6,9 +6,7 @@ we collaborated with our new tech partner
 of an AI-powered API for **generating valid OSM tags from
 street-level imagery**
 
-#### _BTW: this tool is an experimental
-project, is not intended to be used yet by 
-the general user/mapper to update OSM_
+_This tool is an experimental project, is not intended to be used yet by the general user/mapper to update OSM_
 
 ## Setup & run
 
