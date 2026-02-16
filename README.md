@@ -1,12 +1,14 @@
 # OSM Tagger
 
-As part of HOT's participation in @Tech To The Rescue, 
-we collaborated with our new tech partner
-[Fulton Ring](https://www.fultonring.com/) for the development
-of an AI-powered API for **generating valid OSM tags from
-street-level imagery**
+As part of HOT's participation in @Tech To The Rescue, we collaborated with our new tech partner 
+[Fulton Ring](https://www.fultonring.com/) for the development of an AI-powered API for **generating
+valid OSM tags from street-level imagery**
 
-_This tool is an experimental project, is not intended to be used yet by the general user/mapper to update OSM_
+The original idea was to integrate OSM Tagger with [ChatMap](https://github.com/hotosm/chatmap/) but it
+can be used with any source of geo-located pictures.
+
+_This tool is an experimental project, is not intended to be used yet by the general user/mapper to
+update OSM_
 
 ## Setup & run
 
@@ -148,16 +150,11 @@ curl --location 'http://localhost:8000/api/v1/tags/f9ed4777-e9ef-46e0-b629-004eb
 
 ## OSMTagger API
 
-OSMTagger API should receive a request
-with an image URL, geo-location and
-category, and return OSM valid tags.
-The category will help the API to decide
-a prompt and maybe other configurations.
+OSMTagger API should receive a request with an image URL, geo-location and category, and return
+OSM valid tags. The category will help the API to decide a prompt and maybe other configurations.
 
-Two models will be used, one focused on 
-extracting text from an image and the 
-other for generating OSM tags from the 
-text. This will divide the problem in 
-two and provide more flexibility for the 
+Two models will be used, one focused on  extracting text from an image and the other for generating
+OSM tags from the text. This will divide the problem in two and provide more flexibility for the 
 final solution.
+
 
