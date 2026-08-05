@@ -1,0 +1,4 @@
+image,surface,smoothness,confidence,latency_sec,json_valid,raw_output,correct,notes
+image.png,unpaved,bad,low,2.13,yes,"```json
+{""surface"": ""unpaved"", ""smoothness"": ""bad"", ""confidence"": ""low""}
+```",,

@@ -1,0 +1,304 @@
+image,quality_passed,quality_reason,brightness,blur_score,correct,notes,road_present,surface,smoothness,confidence,rejected,reject_reason,latency_sec,json_valid,raw_output
+ANCHORAGE_1.png,yes,ok,121.9,838.6,,,yes,asphalt,good,0.95,no,,12.39,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+ANCHORAGE_2.png,yes,ok,168.9,720.2,,,yes,asphalt,excellent,0.95,no,,10.4,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+ANCHORAGE_3.png,yes,ok,162.5,1212.0,,,yes,asphalt,excellent,0.95,no,,10.62,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+BRIGHTON_1.png,yes,ok,92.8,1364.2,,,yes,asphalt,excellent,0.95,no,,10.97,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+BRIGHTON_2.png,yes,ok,91.5,2225.2,,,yes,asphalt,good,0.95,no,,11.35,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+CAIRO_1.png,yes,ok,148.1,2435.6,,,yes,asphalt,good,0.95,no,,11.5,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+CAIRO_2.png,yes,ok,141.8,579.5,,,yes,asphalt,good,0.85,no,,10.73,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.85
+}"
+CAIRO_3.png,yes,ok,123.1,145.9,,,yes,asphalt,good,0.8,no,,10.49,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.8
+}"
+CONEY_ISLAND_1.png,yes,ok,126.3,759.8,,,yes,asphalt,good,0.95,no,,11.87,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+CONEY_ISLAND_2.png,yes,ok,125.9,615.2,,,yes,asphalt,good,0.9,no,,11.56,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.9
+}"
+CONEY_ISLAND_3.png,yes,ok,132.6,2065.8,,,yes,dirt,bad,0.8,no,,11.75,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""dirt"",
+  ""smoothness"": ""bad"",
+  ""confidence"": 0.8
+}"
+DUBAI_1.png,yes,ok,141.1,699.8,,,yes,asphalt,excellent,0.95,no,,11.99,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+DUBAI_2.png,yes,ok,120.6,252.0,,,yes,asphalt,excellent,0.95,no,,11.81,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+DUBAI_3.png,yes,ok,116.9,535.3,,,yes,asphalt,excellent,0.95,no,,12.06,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+FURKA_PASS_1.png,yes,ok,127.1,1214.1,,,yes,asphalt,good,0.95,no,,12.28,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+FURKA_PASS_2.png,yes,ok,129.6,3163.5,,,yes,asphalt,good,0.95,no,,12.82,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+FURKA_PASS_3.png,yes,ok,106.9,2139.0,,,yes,asphalt,good,0.95,no,,12.55,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+IOWA_RURAL_1.png,yes,ok,97.0,758.9,,,yes,asphalt,excellent,0.95,no,,11.72,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+IOWA_RURAL_2.png,yes,ok,96.2,742.6,,,yes,asphalt,excellent,0.95,no,,11.78,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+IOWA_RURAL_3.png,yes,ok,101.1,652.8,,,yes,asphalt,good,0.95,no,,11.45,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+KABUL_1.png,yes,ok,134.0,891.2,,,yes,asphalt,good,0.95,no,,12.04,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+KABUL_2.png,yes,ok,127.9,1048.0,,,yes,asphalt,good,0.95,no,,12.35,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+KABUL_3.png,yes,ok,137.2,767.8,,,yes,asphalt,good,0.85,no,,12.03,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.85
+}"
+MOAB_UTAH_1.png,yes,ok,106.6,2503.4,,,yes,asphalt,good,0.95,no,,12.5,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+MOAB_UTAH_2.png,yes,ok,159.1,2408.5,,,yes,asphalt,excellent,0.95,no,,12.59,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+MOAB_UTAH_3.png,yes,ok,105.1,2731.4,,,yes,asphalt,good,0.95,no,,12.47,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+MUMBAI_1.png,yes,ok,186.2,1173.0,,,yes,concrete,excellent,0.95,no,,12.27,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""concrete"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+MUMBAI_2.png,yes,ok,100.2,859.1,,,yes,asphalt,excellent,0.95,no,,12.3,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+MUMBAI_3.png,yes,ok,173.3,1205.0,,,yes,concrete,excellent,0.95,no,,12.28,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""concrete"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+OCEAN_CITY_1.png,yes,ok,127.7,1556.9,,,yes,asphalt,excellent,0.95,no,,12.5,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+OCEAN_CITY_2.png,yes,ok,94.5,1882.8,,,yes,asphalt,excellent,0.95,no,,11.98,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+OCEAN_CITY_3.png,yes,ok,95.7,2113.1,,,yes,asphalt,excellent,0.95,no,,11.9,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+PORT_AU_PRINCE_1.png,yes,ok,129.9,3342.7,,,yes,dirt,intermediate,0.8,no,,12.53,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""dirt"",
+  ""smoothness"": ""intermediate"",
+  ""confidence"": 0.8
+}"
+PORT_AU_PRINCE_2.png,yes,ok,126.7,4041.6,,,yes,dirt,intermediate,0.85,no,,13.25,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""dirt"",
+  ""smoothness"": ""intermediate"",
+  ""confidence"": 0.85
+}"
+PORT_AU_PRINCE_3.png,yes,ok,119.6,2327.2,,,yes,asphalt,good,0.95,no,,13.58,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+QUEBEC_CITY_1.png,yes,ok,124.2,1120.2,,,yes,asphalt,good,0.95,no,,11.54,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+QUEBEC_CITY_2.png,yes,ok,124.3,1176.0,,,yes,asphalt,good,0.95,no,,11.53,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+QUEBEC_CITY_3.png,yes,ok,126.7,1058.9,,,yes,asphalt,good,0.95,no,,11.49,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+SANTA_FE_1.png,yes,ok,106.5,355.2,,,yes,asphalt,good,0.95,no,,12.07,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+SANTA_FE_2.png,yes,ok,100.0,407.5,,,yes,asphalt,good,0.95,no,,12.05,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+SANTA_FE_3.png,yes,ok,110.7,1074.8,,,yes,asphalt,good,0.95,no,,12.24,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+STELVIO_PASS_1.png,yes,ok,106.4,1877.2,,,yes,asphalt,excellent,0.95,no,,12.25,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+STELVIO_PASS_2.png,yes,ok,105.9,1700.8,,,yes,asphalt,excellent,0.95,no,,12.04,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+STELVIO_PASS_3.png,yes,ok,107.8,2219.5,,,yes,asphalt,excellent,0.95,no,,12.26,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""excellent"",
+  ""confidence"": 0.95
+}"
+TRANSFAGARASAN_1.png,yes,ok,111.2,295.9,,,no,none,none,0.0,yes,no_road,11.21,yes,"{
+  ""road_present"": ""no"",
+  ""surface"": null,
+  ""smoothness"": null,
+  ""confidence"": 0.0
+}"
+TRANSFAGARASAN_2.png,yes,ok,136.5,219.7,,,yes,asphalt,good,0.95,no,,11.8,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+TRANSFAGARASAN_3.png,yes,ok,94.9,1686.9,,,yes,asphalt,good,0.95,no,,18.18,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""asphalt"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.95
+}"
+WHITEHORSE_1.png,yes,ok,151.4,564.9,,,no,none,none,0.5,yes,no_road,9.53,yes,"{""road_present"": ""no"", ""surface"": null, ""smoothness"": null, ""confidence"": 0.5}"
+WHITEHORSE_2.png,yes,ok,150.8,558.7,,,no,none,none,0.5,yes,no_road,9.72,yes,"{""road_present"": ""no"", ""surface"": null, ""smoothness"": null, ""confidence"": 0.5}"
+WHITEHORSE_3.png,yes,ok,150.5,546.6,,,no,none,none,0.5,yes,no_road,9.44,yes,"{""road_present"": ""no"", ""surface"": null, ""smoothness"": null, ""confidence"": 0.5}"
+YELLOWKNIFE_1.png,yes,ok,117.6,4942.7,,,yes,wood,good,0.85,no,,13.01,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""wood"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.85
+}"
+YELLOWKNIFE_2.png,yes,ok,155.2,2630.9,,,no,none,none,0.0,yes,no_road,12.15,yes,"{
+  ""road_present"": ""no"",
+  ""surface"": null,
+  ""smoothness"": null,
+  ""confidence"": 0.0
+}"
+YELLOWKNIFE_3.png,yes,ok,107.1,2749.4,,,yes,wood,good,0.85,no,,12.78,yes,"{
+  ""road_present"": ""yes"",
+  ""surface"": ""wood"",
+  ""smoothness"": ""good"",
+  ""confidence"": 0.85
+}"

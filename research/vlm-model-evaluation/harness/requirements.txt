@@ -1,0 +1,7 @@
+numpy
+ollama
+openai
+Pillow
+pandas
+python-dotenv
+requests
