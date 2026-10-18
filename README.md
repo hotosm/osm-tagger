@@ -1,5 +1,7 @@
 # OSM Tagger
 
+Read the [Fulton Ring project case study](https://fultonring.com/work/hot-osm-road-classification/).
+
 As part of HOT's participation in @Tech To The Rescue, we collaborated with our new tech partner 
 [Fulton Ring](https://www.fultonring.com/) for the development of an AI-powered API for **generating
 valid OSM tags from street-level imagery**
