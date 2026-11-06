@@ -23,6 +23,8 @@ jobs:
       image_name: ghcr.io/${{ github.repository }}/osm-tagger-ollama
 
   deploy-infra:
+    # Infra is only deployed on a manual run (Actions > Deploy Pipeline > Run workflow)
+    if: github.event_name == 'workflow_dispatch'
     needs: [build-osm-tagger, build-ollama]
     uses: ./.github/workflows/infra.yaml
     with:
